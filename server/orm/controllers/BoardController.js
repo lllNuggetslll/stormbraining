@@ -56,7 +56,6 @@ export default {
     Board.get(id).run()
       .then((board) => {
         board.merge(update).save()
-
           .then((result) => {
             res.status(200).json({ result });
           });
