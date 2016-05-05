@@ -2,7 +2,7 @@ import expect from 'expect';
 import reducer from '../../reducers/board.js';
 import * as types from '../../actions/action_types';
 
-describe('board reducer', () => {  
+describe('board reducer', () => {
   const existingIdea = {
     id: 0,
     content: 'This is an existing idea!',
@@ -22,6 +22,7 @@ describe('board reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {}))
       .toEqual({
+        id: '',
         title: '',
         ideas: [],
       });
@@ -30,11 +31,10 @@ describe('board reducer', () => {
   it('should handle NEW_IDEA', () => {
     expect(reducer(state, {
       type: types.NEW_IDEA,
-      payload: { data: { idea: newIdea }, },
     }))
       .toEqual({
         title: 'Board Title',
-        ideas: [existingIdea, newIdea],
+        ideas: [existingIdea],
       });
   });
 
@@ -48,30 +48,27 @@ describe('board reducer', () => {
     };
     const board = {
       id: 1,
-      ideas:[anotherIdea],
+      ideas: [anotherIdea],
       title: 'Different Board',
       createdAt: new Date(),
     };
 
     expect(reducer(state, {
       type: types.GET_ONE_BOARD,
-      payload: { data: { board }, },
+      payload: { data: { board } },
     }))
       .toEqual({ ...board });
   });
 
   it('should handle UP_VOTE', () => {
     const newState = { title: 'My Board', ideas: [existingIdea, newIdea] };
-    const upvotedIdea = Object.assign({}, existingIdea);
-    upvotedIdea.upvotes++;
 
     expect(reducer(newState, {
       type: types.UP_VOTE,
-      payload: { data: { idea: upvotedIdea }, },
     }))
       .toEqual({
         title: 'My Board',
-        ideas: [upvotedIdea, newIdea],
+        ideas: [existingIdea, newIdea],
       });
   });
 });
