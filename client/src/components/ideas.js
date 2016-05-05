@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getOneBoard, refreshBoardView } from '../actions/index';
+import { getOneBoard, refreshBoardView, clearBoardView } from '../actions/index';
 import io from 'socket.io-client';
 
 import IdeaInput from '../containers/idea_input';
@@ -12,15 +12,27 @@ class Ideas extends Component {
     params: PropTypes.object,
     getOneBoard: PropTypes.func,
     refreshBoardView: PropTypes.func,
+    clearBoardView: PropTypes.func,
     board: PropTypes.object,
   }
 
   componentWillMount() {
-    this.props.getOneBoard(this.props.params.board_id);
-    this.socket = io();
-    this.socket.on('idea', (ideaDoc) => {
-      this.props.refreshBoardView(ideaDoc);
-    });
+    this.props.getOneBoard(this.props.params.board_id)
+      .then(() => {
+        console.log(this.props.board);
+        this.socket = io();
+        this.socket.on('connect', () => {
+          this.socket.emit('subscribe', this.props.board.id);
+        });
+        this.socket.on('idea', (ideaDoc) => {
+          this.props.refreshBoardView(ideaDoc);
+        });
+      });
+  }
+
+  componentWillUnmount() {
+    console.log('unmounting');
+    this.props.clearBoardView();
   }
 
   render() {
@@ -42,4 +54,4 @@ function mapStateToProps({ board }) {
   return { board };
 }
 
-export default connect(mapStateToProps, { getOneBoard, refreshBoardView })(Ideas);
+export default connect(mapStateToProps, { getOneBoard, refreshBoardView, clearBoardView })(Ideas);

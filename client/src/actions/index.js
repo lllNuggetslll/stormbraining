@@ -4,10 +4,9 @@ import * as types from './action_types';
 const ROOT_URL = '/api';
 
 export function newIdea(idea, id) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea });
+  axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea });
   return {
     type: types.NEW_IDEA,
-    payload: request,
   };
 }
 
@@ -20,18 +19,23 @@ export function getOneIdea(id, ideaId) {
 }
 
 export function upVote(id, ideaId) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
+  axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
   return {
     type: types.UP_VOTE,
-    payload: request,
+  };
+}
+
+export function deleteIdea(id, ideaId) {
+  axios.delete(`${ROOT_URL}/boards/${id}/ideas/${ideaId}`);
+  return {
+    type: types.DELETE_IDEA,
   };
 }
 
 export function newBoard(title) {
-  const boardRequest = axios.post(`${ROOT_URL}/boards`, { title });
+  axios.post(`${ROOT_URL}/boards`, { title });
   return {
     type: types.NEW_BOARD,
-    payload: boardRequest,
   };
 }
 
@@ -51,9 +55,29 @@ export function getOneBoard(id) {
   };
 }
 
+export function deleteBoard(id) {
+  axios.delete(`${ROOT_URL}/boards/${id}`);
+  return {
+    type: types.DELETE_BOARD,
+  };
+}
+
 export function refreshBoardView(changedEntry) {
   return {
     type: types.REFRESH_BOARD_VIEW,
+    payload: changedEntry,
+  };
+}
+
+export function clearBoardView() {
+  return {
+    type: types.CLEAR_BOARD_VIEW,
+  };
+}
+
+export function refreshAllBoards(changedEntry) {
+  return {
+    type: types.REFRESH_ALL_BOARDS,
     payload: changedEntry,
   };
 }

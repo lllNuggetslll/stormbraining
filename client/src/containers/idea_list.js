@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getOneBoard, upVote } from '../actions/index';
+import { getOneBoard, upVote, deleteIdea } from '../actions/index';
 import Idea from './idea';
 
 class IdeaList extends Component {
@@ -11,6 +11,7 @@ class IdeaList extends Component {
     getOneBoard: PropTypes.func,
     board: PropTypes.object.isRequired,
     upVote: PropTypes.func.isRequired,
+    deleteIdea: PropTypes.func.isRequired,
   }
 
   renderIdea(data) {
@@ -27,6 +28,7 @@ class IdeaList extends Component {
             <th>Idea</th>
             <th>Votes</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +40,7 @@ class IdeaList extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getOneBoard, upVote }, dispatch);
+  return bindActionCreators({ getOneBoard, upVote, deleteIdea }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(IdeaList);
