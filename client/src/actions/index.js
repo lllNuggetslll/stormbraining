@@ -4,9 +4,10 @@ import * as types from './action_types';
 const ROOT_URL = '/api';
 
 export function newIdea(idea, id) {
-  axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea });
+  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea });
   return {
     type: types.NEW_IDEA,
+    payload: request,
   };
 }
 
@@ -19,23 +20,26 @@ export function getOneIdea(id, ideaId) {
 }
 
 export function upVote(id, ideaId) {
-  axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
+  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
   return {
     type: types.UP_VOTE,
+    payload: request,
   };
 }
 
 export function deleteIdea(id, ideaId) {
-  axios.delete(`${ROOT_URL}/boards/${id}/ideas/${ideaId}`);
+  const request = axios.delete(`${ROOT_URL}/boards/${id}/ideas/${ideaId}`);
   return {
     type: types.DELETE_IDEA,
+    payload: request,
   };
 }
 
 export function newBoard(title) {
-  axios.post(`${ROOT_URL}/boards`, { title });
+  const request = axios.post(`${ROOT_URL}/boards`, { title });
   return {
     type: types.NEW_BOARD,
+    payload: request,
   };
 }
 
@@ -56,9 +60,10 @@ export function getOneBoard(id) {
 }
 
 export function deleteBoard(id) {
-  axios.delete(`${ROOT_URL}/boards/${id}`);
+  const request = axios.delete(`${ROOT_URL}/boards/${id}`);
   return {
     type: types.DELETE_BOARD,
+    payload: request,
   };
 }
 

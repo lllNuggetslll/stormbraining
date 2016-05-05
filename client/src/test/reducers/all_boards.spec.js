@@ -17,18 +17,10 @@ describe('all_boards reducer', () => {
   });
 
   it('should handle NEW_BOARD', () => {
-    const newBoard = {
-      id: 2,
-      ideas: [],
-      title: 'Really Different Board',
-      createdAt: new Date(),
-    };
-
     expect(reducer(boards, {
       type: types.NEW_BOARD,
-      payload: { data: { board: newBoard } },
     }))
-      .toEqual([existingBoard, newBoard]);
+      .toEqual([existingBoard]);
   });
 
   it('should handle GET_BOARDS', () => {
