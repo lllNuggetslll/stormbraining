@@ -19,7 +19,6 @@ class Ideas extends Component {
   componentWillMount() {
     this.props.getOneBoard(this.props.params.board_id)
       .then(() => {
-        console.log(this.props.board);
         this.socket = io();
         this.socket.on('connect', () => {
           this.socket.emit('subscribe', this.props.board.id);
@@ -31,7 +30,7 @@ class Ideas extends Component {
   }
 
   componentWillUnmount() {
-    console.log('unmounting');
+    this.socket.emit('unsubscribe', this.props.board.id);
     this.props.clearBoardView();
   }
 
