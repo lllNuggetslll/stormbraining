@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { upVote, getOneBoard } from '../actions/index';
+import { upVote, getOneBoard, deleteIdea } from '../actions/index';
 
 class Idea extends Component {
 
@@ -12,10 +12,15 @@ class Idea extends Component {
     getOneBoard: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     upVote: PropTypes.func.isRequired,
+    deleteIdea: PropTypes.func.isRequired,
   }
 
-  renderVotes() {
+  renderUpvote() {
     this.props.upVote(this.props.boardId, this.props.id);
+  }
+
+  renderDeleteIdea() {
+    this.props.deleteIdea(this.props.boardId, this.props.id);
   }
 
   render() {
@@ -29,10 +34,18 @@ class Idea extends Component {
         </td>
         <td>
           <button
-            onClick={this.renderVotes.bind(this)}
+            onClick={this.renderUpvote.bind(this)}
             className="btn btn-success"
           >
             Upvote
+          </button>
+        </td>
+        <td>
+          <button
+            onClick={this.renderDeleteIdea.bind(this)}
+            className="btn btn-danger"
+          >
+            Delete
           </button>
         </td>
       </tr>
@@ -41,7 +54,7 @@ class Idea extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ upVote, getOneBoard }, dispatch);
+  return bindActionCreators({ upVote, getOneBoard, deleteIdea }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(Idea);
