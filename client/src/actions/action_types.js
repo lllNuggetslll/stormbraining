@@ -9,3 +9,9 @@ export const DELETE_BOARD = 'DELETE_BOARD';
 export const REFRESH_BOARD_VIEW = 'REFRESH_BOARD_VIEW';
 export const CLEAR_BOARD_VIEW = 'CLEAR_BOARD_VIEW';
 export const REFRESH_ALL_BOARDS = 'REFRESH_ALL_BOARDS';
+
+
+// Auth Actions
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
