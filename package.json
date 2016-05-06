@@ -9,12 +9,13 @@
     "clean": "rimraf client/dist",
     "build": "webpack --progress --verbose --colors --display-error-details --config client/webpack/common.config.js",
     "build:production": "npm run clean && npm run build",
-    "lint": "eslint src",
+    "lint": "eslint --ignore-path .gitignore **/*.js",
     "postinstall": "npm run build:production",
     "start:dev": "nodemon server/bin/server.js",
     "start": "node server/bin/server.js",
-    "test": "mocha server/test --compilers js:babel-register",
-    "testF": "mocha client/src/test/**/*.spec.js --compilers js:babel-register --recursive"
+    "test": "npm run testFront && npm run testBack",
+    "testFront": "mocha client/src/test/**/*.spec.js --compilers js:babel-register --recursive",
+    "testBack": "mocha server/test --compilers js:babel-register"
   },
   "repository": {
     "type": "git",

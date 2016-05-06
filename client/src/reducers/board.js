@@ -29,11 +29,6 @@ export default function (state = INITIAL_STATE, action) {
     case REFRESH_BOARD_VIEW:
       const changedIdea = action.payload;
       let updateComplete = false;
-
-      // if (changedIdea.boardId !== state.id) {
-      //   return state;
-      // }
-
       // Update idea based on whether or not it is marked toBeDeleted and by matching ids
       const updatedIdeas = state.ideas.reduce((memo, idea) => {
         if (idea.id === changedIdea.id) {
@@ -46,12 +41,10 @@ export default function (state = INITIAL_STATE, action) {
         }
         return memo;
       }, []);
-
       // Add new idea if changedIdea id did not matching existing ids
       if (!updateComplete && !changedIdea.toBeDeleted) {
         updatedIdeas.push(changedIdea);
       }
-
       return { ...state, ideas: updatedIdeas };
 
     default:
