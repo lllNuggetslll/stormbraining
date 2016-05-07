@@ -13,6 +13,7 @@ class App extends Component {
 
   render() {
     const { dispatch, isAuthenticated, errorMessage } = this.props;
+
     return (
       <div>
         <Login

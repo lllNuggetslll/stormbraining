@@ -15,3 +15,7 @@ export const REFRESH_ALL_BOARDS = 'REFRESH_ALL_BOARDS';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const SHOW_LOCK = 'SHOW_LOCK';
+export const LOCK_SUCCESS = 'LOCK_SUCCESS';
+export const LOCK_ERROR = 'LOCK_ERROR';

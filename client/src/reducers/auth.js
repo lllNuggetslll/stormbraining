@@ -1,7 +1,7 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS } from '../actions/action_types';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, LOCK_SUCCESS } from '../actions/action_types';
 
 const INITIAL_STATE = { isFetching: false,
-  isAuthenticated: localStorage.getItem('id_token') ? false : true,
+  isAuthenticated: localStorage.getItem('id_token') ? true : false,
 };
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -13,6 +13,12 @@ export default function auth(state = INITIAL_STATE, action) {
         user: action.creds,
       });
     case LOGIN_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isAuthenticated: true,
+        errorMessage: '',
+      });
+    case LOCK_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         isAuthenticated: true,

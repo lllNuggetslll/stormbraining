@@ -6,7 +6,7 @@ import { Router, Route, browserHistory } from 'react-router';
 import thunkMiddleware from 'redux-thunk';
 import promise from 'redux-promise';
 
-import Login from './components/login';
+import Login from './containers/app';
 import App from './components/app';
 import Ideas from './components/ideas';
 import Boards from './components/boards';

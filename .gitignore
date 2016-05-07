@@ -22,3 +22,4 @@ crashlytics-build.properties
 rethinkdb_data/
 .floo
 .flooignore
+.env
