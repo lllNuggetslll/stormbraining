@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { upVote, getOneBoard, deleteIdea } from '../actions/index';
 
-class Idea extends Component {
+import IdeaEditInput from '../containers/idea_edit_input';
 
+class Idea extends Component {
   static propTypes = {
     content: PropTypes.string.isRequired,
     upvotes: PropTypes.number.isRequired,
@@ -13,6 +14,12 @@ class Idea extends Component {
     id: PropTypes.string.isRequired,
     upVote: PropTypes.func.isRequired,
     deleteIdea: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.renderUpvote = this.renderUpvote.bind(this);
+    this.renderDeleteIdea = this.renderDeleteIdea.bind(this);
   }
 
   renderUpvote() {
@@ -26,15 +33,13 @@ class Idea extends Component {
   render() {
     return (
       <tr>
-        <td>
-          {this.props.content}
-        </td>
+        <IdeaEditInput {...this.props} />
         <td>
           {this.props.upvotes}
         </td>
         <td>
           <button
-            onClick={this.renderUpvote.bind(this)}
+            onClick={this.renderUpvote}
             className="btn btn-success"
           >
             Upvote
@@ -42,7 +47,7 @@ class Idea extends Component {
         </td>
         <td>
           <button
-            onClick={this.renderDeleteIdea.bind(this)}
+            onClick={this.renderDeleteIdea}
             className="btn btn-danger"
           >
             Delete

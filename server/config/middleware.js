@@ -5,7 +5,8 @@ import webpackConfig from '../../client/webpack/common.config';
 import jwt from 'express-jwt';
 import dotenv from 'dotenv';
 
-dotenv.load();
+// Uncomment the following line for local development!
+//dotenv.load();
 
 export const jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),

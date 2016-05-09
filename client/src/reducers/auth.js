@@ -1,39 +1,28 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_SUCCESS, LOCK_SUCCESS } from '../actions/action_types';
+import { LOGOUT_SUCCESS, LOCK_SUCCESS, LOCK_ERROR } from '../actions/action_types';
 
-const INITIAL_STATE = { isFetching: false,
+const INITIAL_STATE = {
   isAuthenticated: localStorage.getItem('id_token') ? true : false,
+  errorMessage: '',
+  profile: JSON.parse(localStorage.getItem('profile')),
 };
 
 export default function auth(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case LOGIN_REQUEST:
-      return Object.assign({}, state, {
-        isFetching: true,
-        isAuthenticated: false,
-        user: action.creds,
-      });
-    case LOGIN_SUCCESS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        isAuthenticated: true,
-        errorMessage: '',
-      });
     case LOCK_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: false,
         isAuthenticated: true,
         errorMessage: '',
+        profile: action.profile,
       });
-    case LOGIN_FAILURE:
+    case LOCK_ERROR:
       return Object.assign({}, state, {
-        isFetching: false,
         isAuthenticated: false,
-        errorMessage: action.message,
+        errorMessage: action.err,
       });
     case LOGOUT_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: true,
         isAuthenticated: false,
+        errorMessage: '',
       });
 
     default:
