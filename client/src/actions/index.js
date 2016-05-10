@@ -10,8 +10,8 @@ axios.interceptors.request.use((config) => {
 
 const ROOT_URL = '/api';
 
-export function newIdea(idea, id) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea });
+export function newIdea(idea, id, authorId) {
+  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea, authorId });
   return {
     type: types.NEW_IDEA,
     payload: request,
@@ -26,10 +26,18 @@ export function getOneIdea(id, ideaId) {
   };
 }
 
-export function upVote(id, ideaId) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
+export function upVote(id, ideaId, userId) {
+  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`, { userId });
   return {
     type: types.UP_VOTE,
+    payload: request,
+  };
+}
+
+export function unVote(id, ideaId, userId) {
+  const request = axios.put(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`, { userId });
+  return {
+    type: types.UN_VOTE,
     payload: request,
   };
 }
@@ -50,8 +58,8 @@ export function updateIdea(idea, id, ideaId) {
   };
 }
 
-export function newBoard(title) {
-  const request = axios.post(`${ROOT_URL}/boards`, { title });
+export function newBoard(title, authorId) {
+  const request = axios.post(`${ROOT_URL}/boards`, { title, authorId });
   return {
     type: types.NEW_BOARD,
     payload: request,
@@ -99,5 +107,33 @@ export function refreshAllBoards(changedEntry) {
   return {
     type: types.REFRESH_ALL_BOARDS,
     payload: changedEntry,
+  };
+}
+
+export function saveOrFetchUser(user) {
+  const request = axios.post(`${ROOT_URL}/users`, { user });
+  return {
+    type: types.SAVE_OR_FETCH_USER,
+    payload: request,
+  };
+}
+
+export function shuffleIdeas() {
+  return {
+    type: types.SHUFFLE_IDEAS,
+  };
+}
+
+export function sortIdeasByVotes(order) {
+  return {
+    type: types.SORT_IDEAS_BY_VOTES,
+    order,
+  };
+}
+
+export function sortIdeasByContent(order) {
+  return {
+    type: types.SORT_IDEAS_BY_CONTENT,
+    order,
   };
 }

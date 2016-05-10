@@ -1,4 +1,4 @@
-import { LOGOUT_SUCCESS, LOCK_SUCCESS, LOCK_ERROR } from '../actions/action_types';
+import { LOGOUT_SUCCESS, LOCK_SUCCESS, LOCK_ERROR, SAVE_OR_FETCH_USER } from '../actions/action_types';
 
 const INITIAL_STATE = {
   isAuthenticated: localStorage.getItem('id_token') ? true : false,
@@ -24,6 +24,8 @@ export default function auth(state = INITIAL_STATE, action) {
         isAuthenticated: false,
         errorMessage: '',
       });
+    case SAVE_OR_FETCH_USER:
+      return state;
 
     default:
       return state;

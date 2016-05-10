@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { newBoard } from '../actions/index';
 
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import './styles/main.scss';
+
 class BoardInput extends Component {
 
   static propTypes = {
     newBoard: PropTypes.func.isRequired,
+    userId: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -23,25 +28,29 @@ class BoardInput extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    this.props.newBoard(this.state.board);
+    this.props.newBoard(this.state.board, this.props.userId);
     this.setState({ board: '' });
   }
 
   render() {
     return (
-      <form onSubmit={this.onFormSubmit} className="input-group">
-        <input
-          placeholder="Name your brainstorm"
-          className="form-control"
+      <div className="board-input-container">
+      <form onSubmit={this.onFormSubmit}>
+        <TextField
+          hintText="Name your brainstorm"
+          floatingLabelText="Create a new brainstorm"
           value={this.state.board}
           onChange={this.onInputChange}
+          className="board-input"
         />
-        <span className="input-group-btn">
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </span>
+        <RaisedButton
+          type="submit"
+          className="board-button"
+        >
+          Submit
+        </RaisedButton>
       </form>
+      </div>
     );
   }
 }
@@ -50,4 +59,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ newBoard }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(BoardInput);
+function mapStateToProps({ auth }) {
+  return { userId: auth.profile.user_id };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BoardInput);

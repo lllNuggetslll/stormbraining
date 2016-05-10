@@ -16,6 +16,9 @@ import Home from './components/home';
 import NotFound from './components/not_found';
 import reducers from './reducers';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 const routingMiddleware = routerMiddleware(browserHistory);
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, promise, routingMiddleware));

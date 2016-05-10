@@ -2,7 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { lockSuccess, lockError } from '../actions/auth_actions';
+import { saveOrFetchUser } from '../actions/index';
 import { browserHistory } from 'react-router';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import './styles/main.scss';
 
 export default class LoginButton extends Component {
 
@@ -13,6 +17,7 @@ export default class LoginButton extends Component {
     auth: PropTypes.object,
     lockSuccess: PropTypes.func,
     lockError: PropTypes.func,
+    saveOrFetchUser: PropTypes.func,
   }
 
   static contextTypes = {
@@ -34,6 +39,8 @@ export default class LoginButton extends Component {
       }
       localStorage.setItem('profile', JSON.stringify(profile));
       localStorage.setItem('id_token', token);
+      const user = { name: profile.name, email: profile.email, id: profile.user_id };
+      this.props.saveOrFetchUser(user);
       this.props.lockSuccess(profile, token);
       if (this.props.isAuthenticated) {
         this.redirect();
@@ -47,15 +54,17 @@ export default class LoginButton extends Component {
 
   render() {
     const { isAuthenticated, errorMessage } = this.props;
+
     if (!isAuthenticated) {
       return (
-        <button
+        <RaisedButton
           errorMessage={errorMessage}
           onClick={this.onLogin}
-          className="btn btn-primary"
+          className="login-button"
+          default={true}
         >
           Login
-        </button>
+        </RaisedButton>
       );
     } else {
       setTimeout(this.redirect, 1000);
@@ -69,7 +78,7 @@ export default class LoginButton extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ lockSuccess, lockError }, dispatch);
+  return bindActionCreators({ lockSuccess, lockError, saveOrFetchUser }, dispatch);
 }
 
 function mapStateToProps({ auth }) {

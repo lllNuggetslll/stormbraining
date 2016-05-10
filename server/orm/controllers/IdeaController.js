@@ -27,6 +27,7 @@ export default {
   upvoteIdea: (req, res) => {
     const id = req.params.idea_id;
     const userId = req.body.userId;
+    console.log(req.body)
 
     Idea.get(id).run()
       .then((idea) => {
@@ -42,7 +43,7 @@ export default {
 
   unvoteIdea: (req, res) => {
     const id = req.params.idea_id;
-    const userId = req.body.user_id;
+    const userId = req.body.userId;
 
     Idea.get(id).run()
       .then((idea) => {

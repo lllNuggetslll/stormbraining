@@ -2,6 +2,19 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import LoginButton from './login_button';
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
+import './styles/main.scss';
+
+const style = {
+  height: 500,
+  width: 750,
+  marginLeft: '15%',
+  marginTop: '5%',
+  textAlign: 'center',
+  display: 'inline-block',
+};
 
 class Login extends Component {
 
@@ -15,14 +28,20 @@ class Login extends Component {
     const { dispatch, isAuthenticated, errorMessage } = this.props;
 
     return (
-      <div>
-        <h1>Stormbraining</h1>
-        <LoginButton
-          isAuthenticated={isAuthenticated}
-          errorMessage={errorMessage}
-          dispatch={dispatch}
-        />
-      </div>
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <div>
+        <Paper style={style} zDepth={4}>
+          <div className="login-title">
+            <h1 className="title">Stormbraining</h1>
+            <LoginButton
+              isAuthenticated={isAuthenticated}
+              errorMessage={errorMessage}
+              dispatch={dispatch}
+            />
+          </div>
+          </Paper>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

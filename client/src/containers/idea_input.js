@@ -1,13 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { newIdea } from '../actions/index';
+import { newIdea, shuffleIdeas } from '../actions/index';
+
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import './styles/main.scss';
 
 class IdeaInput extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
     newIdea: PropTypes.func.isRequired,
+    shuffleIdeas: PropTypes.func.isRequired,
+    userId: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -16,6 +22,7 @@ class IdeaInput extends Component {
     this.state = { term: '' };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.onShuffle = this.onShuffle.bind(this);
   }
 
   onInputChange(event) {
@@ -25,36 +32,46 @@ class IdeaInput extends Component {
   onFormSubmit(event) {
     event.preventDefault();
     if (this.state.term.length > 2) {
-      this.props.newIdea(this.state.term, this.props.params.board_id);
+      console.log(this.props.userId);
+      this.props.newIdea(this.state.term, this.props.params.board_id, this.props.userId);
     }
 
     this.setState({ term: '' });
   }
 
+  onShuffle() {
+    this.props.shuffleIdeas();
+  }
+
   render() {
     return (
-      <form onSubmit={this.onFormSubmit} className="input-group">
-        <input
-          placeholder="Great ideas start here..."
-          className="form-control"
-          value={this.state.term}
-          onChange={this.onInputChange}
-        />
-        <span className="input-group-btn">
-          <button
+      <div className="idea-input-container">
+        <form onSubmit={this.onFormSubmit}>
+          <TextField
+            hintText="Submit an idea"
+            floatingLabelText="Great ideas start here..."
+            value={this.state.term}
+            onChange={this.onInputChange}
+          />
+          <RaisedButton
             type="submit"
-            className="btn btn-primary"
-          >
-            Submit
-          </button>
-        </span>
-      </form>
+            className="idea-button"
+            label="Submit"
+          />
+          <RaisedButton
+            type="button"
+            className="idea-button"
+            label="Shuffle Ideas"
+            onTouchTap={this.onShuffle}
+          />
+        </form>
+      </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ newIdea }, dispatch);
+  return bindActionCreators({ newIdea, shuffleIdeas }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(IdeaInput);
