@@ -28,7 +28,7 @@ class BoardInput extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    this.props.newBoard(this.state.board, this.props.userId);
+    this.props.newBoard(this.state.board);
     this.setState({ board: '' });
   }
 

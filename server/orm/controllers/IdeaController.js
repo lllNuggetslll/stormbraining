@@ -4,7 +4,8 @@ import helper from './helper.js';
 export default {
   addIdea: (req, res) => {
     const boardId = req.params.board_id;
-    const { content, authorId } = req.body;
+    const authorId = req.user.sub;
+    const { content } = req.body;
     const newIdea = new Idea({ content, boardId, authorId });
 
     newIdea.save()
@@ -26,8 +27,7 @@ export default {
 
   upvoteIdea: (req, res) => {
     const id = req.params.idea_id;
-    const userId = req.body.userId;
-    console.log(req.body)
+    const userId = req.user.sub;
 
     Idea.get(id).run()
       .then((idea) => {
@@ -43,7 +43,7 @@ export default {
 
   unvoteIdea: (req, res) => {
     const id = req.params.idea_id;
-    const userId = req.body.userId;
+    const userId = req.user.sub;
 
     Idea.get(id).run()
       .then((idea) => {
@@ -60,25 +60,27 @@ export default {
 
   deleteIdea: (req, res) => {
     const id = req.params.idea_id;
-    const userId = req.body.user_id;
-
-    Idea.get(id).run()
+    const userId = req.user.sub;
+    Idea.get(id).getJoin({
+      comments: true,
+    }).run()
       .then((idea) => {
         if (userId === idea.authorId) {
-          idea.delete()
+          idea.deleteAll({ comments: true })
             .then((result) => {
               res.sendStatus(204);
             });
         } else {
           console.log('Permission denied.');
         }
-      });
+      })
+      .error(helper.handleError(res));
   },
 
   updateIdea: (req, res) => {
     const id = req.params.idea_id;
     const update = req.body;
-    const userId = req.body.user_id;
+    const userId = req.user.sub;
 
     Idea.get(id).run()
       .then((idea) => {

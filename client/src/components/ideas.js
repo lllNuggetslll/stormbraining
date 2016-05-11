@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getOneBoard, refreshBoardView, clearBoardView } from '../actions/index';
+import { getOneBoard, refreshBoardView, clearBoardView, syncComment } from '../actions/index';
 import io from 'socket.io-client';
 
 import IdeaInput from '../containers/idea_input';
@@ -13,6 +13,7 @@ class Ideas extends Component {
     getOneBoard: PropTypes.func,
     refreshBoardView: PropTypes.func,
     clearBoardView: PropTypes.func,
+    syncComment: PropTypes.func,
     board: PropTypes.object,
   }
 
@@ -25,6 +26,9 @@ class Ideas extends Component {
         });
         this.socket.on('idea', (ideaDoc) => {
           this.props.refreshBoardView(ideaDoc);
+        });
+        this.socket.on('comment', (comment) => {
+          this.props.syncComment(comment);
         });
       });
   }
@@ -52,4 +56,4 @@ function mapStateToProps({ board, auth }) {
   return { board, userId: auth.profile.user_id };
 }
 
-export default connect(mapStateToProps, { getOneBoard, refreshBoardView, clearBoardView })(Ideas);
+export default connect(mapStateToProps, { getOneBoard, refreshBoardView, clearBoardView, syncComment })(Ideas);

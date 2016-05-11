@@ -6,11 +6,9 @@ import { browserHistory, Link } from 'react-router';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import ContentFilter from 'material-ui/svg-icons/content/filter-list';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
+import '../containers/styles/main.scss';
 
 const styles = {
   title: {
@@ -22,10 +20,10 @@ const styles = {
 const paper = {
   minHeight: '620px',
   minWidth: '100%',
-  marginTop: '.4%',
   width: 750,
   textAlign: 'center',
   display: 'inline-block',
+  margin: '0 auto',
 };
 
 const iconStyles = {
@@ -70,25 +68,19 @@ export default class App extends Component {
                 <Paper style={iconStyles} zDepth={1} circle />
               }
               iconElementRight={
-                <IconMenu
-                  iconButtonElement={
-                    <IconButton><ContentFilter /></IconButton>
-                  }
-                  anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-                  targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                >
-                  <MenuItem
-                    primaryText="Boards"
-                    linkButton
+                <Tabs>
+                  <Tab
+                    className="tabs-boards"
+                    label="Boards"
                     containerElement={<Link to="/boards" />}
                   />
-                  <MenuItem
-                    primaryText="Logout"
-                    onTouchTap={this.onLogout}
-                    linkButton
+                  <Tab
+                    className="tabs-logout"
+                    label="Logout"
+                    onClick={this.onLogout}
                     containerElement={<Link to="/login" />}
                   />
-                </IconMenu>
+                </Tabs>
               }
             />
             {this.props.children}

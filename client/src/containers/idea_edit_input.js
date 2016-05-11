@@ -9,6 +9,8 @@ class IdeaEditInput extends Component {
     content: PropTypes.string.isRequired,
     boardId: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
+    authorId: PropTypes.string.isRequired,
     updateIdea: PropTypes.func.isRequired,
   }
 
@@ -23,7 +25,9 @@ class IdeaEditInput extends Component {
   }
 
   onShowEdit() {
-    this.setState({ input: this.props.content, showEditInput: true });
+    if (this.props.userId === this.props.authorId) {
+      this.setState({ input: this.props.content, showEditInput: true });
+    }
   }
 
   onHideEdit() {
@@ -36,51 +40,44 @@ class IdeaEditInput extends Component {
 
   onFormSubmit(event) {
     event.preventDefault();
-    if (this.state.input.length > 2) {
+    if (this.state.input.length && this.props.userId === this.props.authorId) {
       this.props.updateIdea(this.state.input, this.props.boardId, this.props.id);
     }
     this.onHideEdit();
   }
 
-  renderContentOrEditInput() {
+  render() {
     if (this.state.showEditInput) {
       return (
-        <form onSubmit={this.onFormSubmit} className="input-group">
-          <input
-            className="form-control"
-            value={this.state.input}
-            onChange={this.onInputChange}
-          />
-          <span className="input-group-btn">
-            <button
-              type="submit"
-              className="btn btn-primary"
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={this.onHideEdit}
-              className="btn btn-primary"
-            >
-              Cancel
-            </button>
-          </span>
-        </form>
-      );
-    } else {
-      return (
-        <div onClick={this.onShowEdit}>
-          {this.props.content}
-        </div>
+        <td>
+          <form onSubmit={this.onFormSubmit} className="input-group">
+            <input
+              className="form-control"
+              value={this.state.input}
+              onChange={this.onInputChange}
+            />
+            <span className="input-group-btn">
+              <button
+                type="submit"
+                className="btn btn-primary"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                onClick={this.onHideEdit}
+                className="btn btn-primary"
+              >
+                Cancel
+              </button>
+            </span>
+          </form>
+        </td>
       );
     }
-  }
-
-  render() {
     return (
-      <td>
-        {this.renderContentOrEditInput()}
+      <td onClick={this.onShowEdit}>
+        {this.props.content}
       </td>
     );
   }

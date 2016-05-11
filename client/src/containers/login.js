@@ -10,8 +10,8 @@ import './styles/main.scss';
 const style = {
   height: 500,
   width: 750,
-  marginLeft: '15%',
-  marginTop: '5%',
+  marginLeft: '20%',
+  marginTop: '2.5%',
   textAlign: 'center',
   display: 'inline-block',
 };

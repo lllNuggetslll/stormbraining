@@ -5,6 +5,9 @@ import { Link } from 'react-router';
 import { getBoards, refreshAllBoards, deleteBoard } from '../actions/index';
 import io from 'socket.io-client';
 
+import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton';
+
 class BoardList extends Component {
 
   static propTypes = {
@@ -12,6 +15,12 @@ class BoardList extends Component {
     getBoards: PropTypes.func.isRequired,
     refreshAllBoards: PropTypes.func.isRequired,
     deleteBoard: PropTypes.func.isRequired,
+    userId: PropTypes.string.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+    this.renderBoardListing = this.renderBoardListing.bind(this);
   }
 
   componentWillMount() {
@@ -22,37 +31,50 @@ class BoardList extends Component {
     });
   }
 
+  deleteButton(data) {
+    if (this.props.userId === data.authorId) {
+      return (
+        <RaisedButton
+          onTouchTap={this.renderDeleteBoard.bind(this, data)}
+          label="Delete"
+        />
+      );
+    }
+  }
+
   renderDeleteBoard(data) {
     this.props.deleteBoard(data.id);
   }
 
   renderBoardListing(data) { // renders a single row of the list table
     return (
-      <tr {...this.props} key={data.id}>
-        <td>
-        {data.title}
-          <Link to={`boards/${data.id}` } className="btn btn-secondary">
-            View
-          </Link>
-        </td>
-        <td>
-          <button
-            onClick={this.renderDeleteBoard.bind(this, data)}
-            className="btn btn-danger"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
+        <TableRow {...this.props} key={data.id}>
+          <TableRowColumn />
+          <TableRowColumn>
+            {data.title}
+          </TableRowColumn>
+          <TableRowColumn>
+            <RaisedButton
+              label="View"
+              linkButton
+              href={`boards/${data.id}`}
+              primary
+            />
+          </TableRowColumn>
+          <TableRowColumn>
+            {this.deleteButton(data)}
+          </TableRowColumn>
+        </TableRow>
     );
   }
+
   render() { // renders an entire table of boards
     return (
-      <table className="table table-hover">
-        <tbody clasName="col-xs-12">
-          {this.props.allBoards.map(this.renderBoardListing.bind(this))}
-        </tbody>
-      </table>
+      <Table>
+        <TableBody displayRowCheckbox={false}>
+          {this.props.allBoards.map(this.renderBoardListing)}
+        </TableBody>
+      </Table>
     );
   }
 }
@@ -61,8 +83,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getBoards, refreshAllBoards, deleteBoard }, dispatch);
 }
 
-function mapStateToProps({ allBoards }) {
-  return { allBoards };
+function mapStateToProps({ allBoards, auth }) {
+  return { allBoards, userId: auth.profile.user_id };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoardList);

@@ -19,8 +19,10 @@ export default Idea;
 // require used instead of import due to same issue (https://github.com/neumino/thinky/issues/399)
 const Board = require('./Board').default;
 const User = require('./User').default;
+const Comment = require('./Comment').default;
 Idea.belongsTo(User, 'author', 'authorId', 'id');
 Idea.belongsTo(Board, 'board', 'boardId', 'id');
+Idea.hasMany(Comment, 'comments', 'id', 'ideaId');
 Idea.ensureIndex('createdAt');
 
 // Initialize change feed on Idea
@@ -36,7 +38,6 @@ Idea.changes().then((feed) => {
       io.sockets.in(doc.boardId).emit('idea', docToDelete);
     } else if (!doc.getOldValue()) {
       // A new document was inserted:
-      console.log(doc.boardId);
       io.sockets.in(doc.boardId).emit('idea', doc);
     } else {
       // A document was updated.

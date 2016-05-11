@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getOneBoard, sortIdeasByVotes, sortIdeasByContent } from '../actions/index';
 import Idea from './idea';
+import Comments from './comments';
 import ArrowDown from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
 
@@ -46,7 +47,10 @@ class IdeaList extends Component {
   renderIdea(data) {
     const userId = this.props.userId;
     return (
-      <Idea {...data} userId={userId} key={data.id}/>
+      <tbody>
+        <Idea {...data} userId={userId} key={data.id}/>
+        <Comments {...data} userId={userId} key={`comments:${data.id}`} />
+      </tbody>
     );
   }
 
@@ -65,9 +69,7 @@ class IdeaList extends Component {
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          {this.props.board.ideas.map(this.renderIdea)}
-        </tbody>
+        {this.props.board.ideas.map(this.renderIdea)}
       </table>
     );
   }

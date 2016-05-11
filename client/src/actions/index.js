@@ -10,8 +10,8 @@ axios.interceptors.request.use((config) => {
 
 const ROOT_URL = '/api';
 
-export function newIdea(idea, id, authorId) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea, authorId });
+export function newIdea(idea, id) {
+  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas`, { content: idea });
   return {
     type: types.NEW_IDEA,
     payload: request,
@@ -26,16 +26,16 @@ export function getOneIdea(id, ideaId) {
   };
 }
 
-export function upVote(id, ideaId, userId) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`, { userId });
+export function upVote(id, ideaId) {
+  const request = axios.post(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
   return {
     type: types.UP_VOTE,
     payload: request,
   };
 }
 
-export function unVote(id, ideaId, userId) {
-  const request = axios.put(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`, { userId });
+export function unVote(id, ideaId) {
+  const request = axios.put(`${ROOT_URL}/boards/${id}/ideas/${ideaId}/upvotes`);
   return {
     type: types.UN_VOTE,
     payload: request,
@@ -58,8 +58,8 @@ export function updateIdea(idea, id, ideaId) {
   };
 }
 
-export function newBoard(title, authorId) {
-  const request = axios.post(`${ROOT_URL}/boards`, { title, authorId });
+export function newBoard(title) {
+  const request = axios.post(`${ROOT_URL}/boards`, { title });
   return {
     type: types.NEW_BOARD,
     payload: request,
@@ -135,5 +135,44 @@ export function sortIdeasByContent(order) {
   return {
     type: types.SORT_IDEAS_BY_CONTENT,
     order,
+  };
+}
+
+export function addComment(content, ideaId, boardId) {
+  const request = axios.post(`${ROOT_URL}/boards/${boardId}/ideas/${ideaId}/comments`, { content });
+  return {
+    type: types.ADD_COMMENT,
+    payload: request,
+  };
+}
+
+export function deleteComment(commentId, ideaId, boardId) {
+  const request = axios.delete(`${ROOT_URL}/boards/${boardId}/ideas/${ideaId}/comments/${commentId}`);
+  return {
+    type: types.DELETE_COMMENT,
+    payload: request,
+  };
+}
+
+export function syncComment(comment) {
+  return {
+    type: types.SYNC_COMMENT,
+    comment,
+  };
+}
+
+export function getMessages(boardId) {
+  const request = axios.get(`${ROOT_URL}/messages/${boardId}`);
+  return {
+    type: types.GET_MESSAGES,
+    payload: request,
+  };
+}
+
+export function addMessage(boardId, message, userName) {
+  const request = axios.post(`${ROOT_URL}/messages/${boardId}`, { message, userName });
+  return {
+    type: types.ADD_MESSAGE,
+    payload: request,
   };
 }

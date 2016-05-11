@@ -3,7 +3,8 @@ import helper from './helper.js';
 
 export default {
   addUser: (req, res) => {
-    const newUser = new User(req.body.user);
+    const id = req.user.sub;
+    const newUser = new User({ ...req.body.user, id });
     // Used ._get() and .execute() to return null instead of
     // throwing error when user is not found
     User._get(req.body.user.id).execute()

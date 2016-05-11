@@ -8,9 +8,10 @@ import {
   SHUFFLE_IDEAS,
   SORT_IDEAS_BY_VOTES,
   SORT_IDEAS_BY_CONTENT,
+  SYNC_COMMENT,
 } from '../actions/action_types';
 
-const INITIAL_STATE = { id: '', title: '', ideas: [] };
+const INITIAL_STATE = { id: '', title: '', ideas: [], messages: [] };
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -30,13 +31,14 @@ export default function (state = INITIAL_STATE, action) {
       return INITIAL_STATE;
 
     case REFRESH_BOARD_VIEW:
-      const changedIdea = action.payload;
+      let changedIdea = action.payload;
       let updateComplete = false;
       // Update idea based on whether or not it is marked toBeDeleted and by matching ids
       const updatedIdeas = state.ideas.reduce((memo, idea) => {
         if (idea.id === changedIdea.id) {
           if (!changedIdea.toBeDeleted) {
-            memo.push(changedIdea);
+            const update = Object.assign(idea, changedIdea);
+            memo.push(update);
           }
           updateComplete = true;
         } else {
@@ -46,6 +48,7 @@ export default function (state = INITIAL_STATE, action) {
       }, []);
       // Add new idea if changedIdea id did not matching existing ids
       if (!updateComplete && !changedIdea.toBeDeleted) {
+        changedIdea = Object.assign(changedIdea, { comments: [] });
         updatedIdeas.push(changedIdea);
       }
       return { ...state, ideas: updatedIdeas };
@@ -90,6 +93,22 @@ export default function (state = INITIAL_STATE, action) {
       });
 
       return { ...state, ideas: arrayByContent };
+
+    case SYNC_COMMENT:
+      const changedIdeas = state.ideas.slice();
+      changedIdeas.forEach(idea => {
+        if (idea.id === action.comment.ideaId) {
+          idea.comments = idea.comments.reduce((memo, comment) => {
+            if (comment.id === action.comment.id && action.comment.toBeDeleted) {
+              return memo;
+            }
+            memo.push(comment);
+            return memo;
+          }, []);
+          if (!action.comment.toBeDeleted) {idea.comments.push(action.comment);}
+        }
+      });
+      return { ...state, ideas: changedIdeas };
 
     default:
       return state;

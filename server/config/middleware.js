@@ -8,7 +8,6 @@ import dotenv from 'dotenv';
 // Uncomment the following line for local development!
 // dotenv.load();
 
-
 export const jwtCheck = jwt({
   secret: new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64'),
   audience: process.env.AUTH0_CLIENT_ID,

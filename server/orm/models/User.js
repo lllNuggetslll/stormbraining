@@ -15,5 +15,7 @@ export default User;
 // require used instead of import due to same issue (https://github.com/neumino/thinky/issues/399)
 const Board = require('./Board').default;
 const Idea = require('./Idea').default;
+const Comment = require('./Comment').default;
 User.hasMany(Board, 'authoredBoards', 'id', 'authorId');
 User.hasMany(Idea, 'ideas', 'id', 'authorId');
+User.hasMany(Comment, 'comments', 'id', 'authorId');
