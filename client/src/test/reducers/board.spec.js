@@ -25,6 +25,7 @@ describe('board reducer', () => {
         id: '',
         title: '',
         ideas: [],
+        messages: [],
       });
   });
 

@@ -53,7 +53,7 @@ class Ideas extends Component {
 }
 
 function mapStateToProps({ board, auth }) {
-  return { board, userId: auth.profile.user_id };
+  return { board, userId: auth.profile.user_id, userName: auth.profile.nickname };
 }
 
 export default connect(mapStateToProps, { getOneBoard, refreshBoardView, clearBoardView, syncComment })(Ideas);

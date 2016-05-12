@@ -138,8 +138,8 @@ export function sortIdeasByContent(order) {
   };
 }
 
-export function addComment(content, ideaId, boardId) {
-  const request = axios.post(`${ROOT_URL}/boards/${boardId}/ideas/${ideaId}/comments`, { content });
+export function addComment(content, userName, ideaId, boardId) {
+  const request = axios.post(`${ROOT_URL}/boards/${boardId}/ideas/${ideaId}/comments`, { content, userName });
   return {
     type: types.ADD_COMMENT,
     payload: request,
@@ -173,6 +173,30 @@ export function addMessage(boardId, message, userName) {
   const request = axios.post(`${ROOT_URL}/messages/${boardId}`, { message, userName });
   return {
     type: types.ADD_MESSAGE,
+    payload: request,
+  };
+}
+
+export function getActiveUsers(boardId) {
+  const request = axios.get(`${ROOT_URL}/activeusers/${boardId}`);
+  return {
+    type: types.GET_ACTIVEUSER,
+    payload: request,
+  };
+}
+
+export function addActiveUser(boardId, name) {
+  const request = axios.post(`${ROOT_URL}/activeusers/${boardId}`, { boardId, name });
+  return {
+    type: types.ADD_ACTIVEUSER,
+    payload: request,
+  };
+}
+
+export function deleteActiveUser(boardId) {
+  const request = axios.delete(`${ROOT_URL}/activeusers/${boardId}`);
+  return {
+    type: types.DELETE_ACTIVEUSER,
     payload: request,
   };
 }

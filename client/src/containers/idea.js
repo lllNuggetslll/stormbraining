@@ -3,6 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { upVote, unVote, getOneBoard, deleteIdea } from '../actions/index';
 
+import { CardHeader } from 'material-ui/Card';
+import ThumbsUp from 'material-ui/svg-icons/action/thumb-up';
+import ThumbsDown from 'material-ui/svg-icons/action/thumb-down';
+import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
+import IconButton from 'material-ui/IconButton';
+
 import IdeaEditInput from '../containers/idea_edit_input';
 
 class Idea extends Component {
@@ -30,33 +36,31 @@ class Idea extends Component {
   voteButton() {
     if (this.props.upvotes.indexOf(this.props.userId) !== -1) {
       return (
-        <button
+        <IconButton
           onClick={this.renderVote}
-          className="btn btn-warning"
         >
-          Un-vote
-        </button>
+          <ThumbsUp color={'#8BC34A'} />
+        </IconButton>
       );
     }
     return (
-      <button
+      <IconButton
         onClick={this.renderVote}
-        className="btn btn-success"
       >
-        Upvote
-      </button>
+        <ThumbsUp hoverColor={'#8BC34A'} />
+      </IconButton>
     );
   }
 
   deleteButton() {
     if (this.props.userId === this.props.authorId) {
       return (
-        <button
+        <IconButton
           onClick={this.renderDeleteIdea}
-          className="btn btn-danger"
+          style={{ float: 'left' }}
         >
-          Delete
-        </button>
+          <DeleteForever />
+        </IconButton>
       );
     }
   }
@@ -77,26 +81,17 @@ class Idea extends Component {
 
   render() {
     return (
-      <tr>
+      <CardHeader
+        actAsExpander={true}
+        showExpandableButton={true}
+      >
         <IdeaEditInput {...this.props} />
-        <td>
-          {this.props.upvotes.length}
-        </td>
-        <td>
+        {this.deleteButton()}
+        <span style={{ float: 'right' }}>
+          {this.props.upvotes.length} upvotes
           {this.voteButton()}
-        </td>
-        <td>
-          <button
-            className="btn btn-primary"
-            onClick={this.showCommentForm}
-          >
-            Show comments
-          </button>
-        </td>
-        <td>
-          {this.deleteButton()}
-        </td>
-      </tr>
+        </span>
+      </CardHeader>
     );
   }
 }

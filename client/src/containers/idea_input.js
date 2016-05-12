@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { newIdea, shuffleIdeas } from '../actions/index';
-import ChatList from './chat_list';
+import Chat from './chats';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -65,7 +65,7 @@ class IdeaInput extends Component {
             onTouchTap={this.onShuffle}
           />
         </form>
-        <ChatList {...this.props} />
+        <Chat {...this.props} />
       </div>
     );
   }

@@ -19,10 +19,10 @@ const styles = {
 
 const paper = {
   minHeight: '620px',
-  minWidth: '100%',
-  width: 750,
+  maxWidth: '100%',
+  width: 1000,
   textAlign: 'center',
-  display: 'inline-block',
+  display: 'block',
   margin: '0 auto',
 };
 

@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { getMessages, addMessage } from '../actions/index';
 import io from 'socket.io-client';
 import { bindActionCreators } from 'redux';
-import Drawer from 'material-ui/Drawer';
+
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Subheader from 'material-ui/Subheader';
 import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui';
 
-export default class Chat extends Component {
+class ChatList extends Component {
 
-  static propTypes = { // this seems to be the preferred set-up
+  static propTypes = {
     params: PropTypes.object,
     getMessages: PropTypes.func,
     board: PropTypes.object,
@@ -21,7 +22,7 @@ export default class Chat extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { open: false, term: '' };
+    this.state = { term: '' };
     this.onChatSubmit = this.onChatSubmit.bind(this);
     this.renderChats = this.renderChats.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
@@ -45,6 +46,7 @@ export default class Chat extends Component {
   }
 
   onInputChange(event) {
+    event.preventDefault();
     this.setState({ term: event.target.value });
   }
 
@@ -57,8 +59,6 @@ export default class Chat extends Component {
       this.setState({ term: '' });
     }
   }
-
-  handleToggle = () => this.setState({ open: !this.state.open });
 
   renderChats(data) {
     return (
@@ -73,29 +73,24 @@ export default class Chat extends Component {
   render() {
     return (
       <div>
-        <RaisedButton
-          label="Chat"
-          onTouchTap={this.handleToggle}
-        />
-        <Drawer open={this.state.open}>
-          <Table>
-            <TableBody displayRowCheckbox={false}>
-              {this.props.chat.map(this.renderChats)}
-            </TableBody>
-          </Table>
-          <form onSubmit={this.onChatSubmit}>
-            <TextField
-              hintText="Chat me up, baby!"
-              value={this.state.term}
-              onChange={this.onInputChange}
-            />
-            <RaisedButton
-              type="submit"
-              label="Send"
-              className="board-button"
-            />
-          </form>
-        </Drawer>
+        <Subheader>ESC to exit</Subheader>
+        <Table>
+          <TableBody displayRowCheckbox={false}>
+            {this.props.chat.map(this.renderChats)}
+          </TableBody>
+        </Table>
+        <form onSubmit={this.onChatSubmit}>
+          <TextField
+            hintText="Your message here..."
+            value={this.state.term}
+            onChange={this.onInputChange}
+          />
+          <RaisedButton
+            type="submit"
+            label="Send"
+            className="board-button"
+          />
+        </form>
       </div>
     );
   }
@@ -109,4 +104,4 @@ function mapStateToProps({ board, chat }) {
   return { board, chat };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatList);

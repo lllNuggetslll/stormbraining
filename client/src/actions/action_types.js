@@ -19,6 +19,9 @@ export const SYNC_COMMENT = 'SYNC_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const GET_MESSAGES = 'GET_MESSAGES';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const GET_ACTIVEUSER = 'GET_ACTIVEUSER';
+export const ADD_ACTIVEUSER = 'ADD_ACTIVEUSER';
+export const DELETE_ACTIVEUSER = 'DELETE_ACTIVEUSER';
 
 // User actions
 export const SAVE_OR_FETCH_USER = 'SAVE_OR_FETCH_USER';

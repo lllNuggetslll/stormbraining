@@ -6,8 +6,8 @@ export default {
     const ideaId = req.params.idea_id;
     const boardId = req.params.board_id;
     const authorId = req.user.sub;
-    const { content } = req.body;
-    const newComment = new Comment({ content, ideaId, boardId, authorId });
+    const { content, userName } = req.body;
+    const newComment = new Comment({ content, authorName: userName, ideaId, boardId, authorId });
 
     newComment.save()
       .then((comment) => {

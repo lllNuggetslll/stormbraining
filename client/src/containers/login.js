@@ -10,10 +10,10 @@ import './styles/main.scss';
 const style = {
   height: 500,
   width: 750,
-  marginLeft: '20%',
-  marginTop: '2.5%',
+  maxWidth: '100%',
+  margin: '2.5% auto 0',
   textAlign: 'center',
-  display: 'inline-block',
+  display: 'block',
 };
 
 class Login extends Component {

@@ -4,10 +4,26 @@ import { bindActionCreators } from 'redux';
 import { getOneBoard, sortIdeasByVotes, sortIdeasByContent } from '../actions/index';
 import Idea from './idea';
 import Comments from './comments';
+
 import ArrowDown from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
+import Reorder from 'material-ui/svg-icons/action/reorder';
+import { Card } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
-const Arrows = ['', <ArrowDown />, <ArrowUp />];
+
+const styles = {
+  smallIcon: {
+    width: 20,
+    height: 20,
+  },
+};
+
+const Arrows = [
+  <Reorder style={styles.smallIcon} />,
+  <ArrowDown style={styles.smallIcon} />,
+  <ArrowUp style={styles.smallIcon} />,
+];
 
 class IdeaList extends Component {
 
@@ -46,31 +62,28 @@ class IdeaList extends Component {
 
   renderIdea(data) {
     const userId = this.props.userId;
+    // console.log(data)
     return (
-      <tbody>
-        <Idea {...data} userId={userId} key={data.id}/>
-        <Comments {...data} userId={userId} key={`comments:${data.id}`} />
-      </tbody>
+      <div style={{ padding: '10px'}} key={data.id}>
+      <Card>
+        <Idea {...data} userId={userId} />
+        <Comments {...data} userId={userId} userName={this.props.userName}/>
+      </Card>
+      </div>
     );
   }
 
   render() {
     return (
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th onClick={this.onSortIdeasByContent}>
-              Idea {Arrows[this.state.sorting.byContent]}
-            </th>
-            <th onClick={this.onSortIdeasByVotes}>
-              Votes {Arrows[this.state.sorting.byVotes]}
-            </th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
+      <div>
+        <FlatButton style={{paddingRight: '10px'}} onClick={this.onSortIdeasByContent}>
+          Sort by Idea {Arrows[this.state.sorting.byContent]}
+        </FlatButton>
+        <FlatButton style={{paddingLeft: '10px'}} onClick={this.onSortIdeasByVotes}>
+          Sort by Votes {Arrows[this.state.sorting.byVotes]}
+        </FlatButton>
         {this.props.board.ideas.map(this.renderIdea)}
-      </table>
+      </div>
     );
   }
 }

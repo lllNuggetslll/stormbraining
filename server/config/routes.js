@@ -4,6 +4,7 @@ import IdeaController from '../orm/controllers/IdeaController.js';
 import CommentController from '../orm/controllers/CommentController.js';
 import UserController from '../orm/controllers/UserController.js';
 import MessageController from '../orm/controllers/MessageController.js';
+import ActiveUserController from '../orm/controllers/ActiveUserController.js';
 
 export default function routes(app, express) {
 
@@ -41,6 +42,11 @@ export default function routes(app, express) {
   app.route('/api/messages/:board_id')
     .get(MessageController.getMessages)
     .post(MessageController.addMessage);
+
+  app.route('/api/activeusers/:board_id')
+    .get(ActiveUserController.getActiveUsers)
+    .post(ActiveUserController.addActiveUser)
+    .delete(ActiveUserController.deleteActiveUser);
 
   app.route(/.*/)
     .get(function root(req, res) {

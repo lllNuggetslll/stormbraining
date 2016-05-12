@@ -19,10 +19,12 @@ const Idea = require('./Idea').default;
 const User = require('./User').default;
 const Message = require('./Message').default;
 const Comment = require('./Comment').default;
+const ActiveUser = require('./ActiveUser').default;
 Board.belongsTo(User, 'author', 'authorId', 'id');
 Board.hasMany(Idea, 'ideas', 'id', 'boardId');
 Board.hasMany(Comment, 'comments', 'id', 'boardId');
 Board.hasMany(Message, 'messages', 'id', 'boardId');
+Board.hasMany(ActiveUser, 'activeUser', 'id', 'boardId');
 Board.ensureIndex('createdAt');
 
 Board.changes().then((feed) => {

@@ -35,6 +35,7 @@ export default {
       messages: {
         _apply: (sequence) => sequence.orderBy('createdAt'),
       },
+      activeUser: true,
     }).run()
       .then((board) => {
         board.ideas.forEach(idea => {
@@ -59,6 +60,7 @@ export default {
       ideas: true,
       comments: true,
       messages: true,
+      activeUser: true,
     }).run()
       .then((board) => {
         if (userId === board.authorId) {

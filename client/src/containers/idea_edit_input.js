@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateIdea } from '../actions/index';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
 class IdeaEditInput extends Component {
 
@@ -49,36 +51,27 @@ class IdeaEditInput extends Component {
   render() {
     if (this.state.showEditInput) {
       return (
-        <td>
-          <form onSubmit={this.onFormSubmit} className="input-group">
-            <input
-              className="form-control"
-              value={this.state.input}
-              onChange={this.onInputChange}
-            />
-            <span className="input-group-btn">
-              <button
-                type="submit"
-                className="btn btn-primary"
-              >
-                Save
-              </button>
-              <button
-                type="button"
-                onClick={this.onHideEdit}
-                className="btn btn-primary"
-              >
-                Cancel
-              </button>
-            </span>
-          </form>
-        </td>
+        <form onSubmit={this.onFormSubmit} style={{ display: 'inline-block', float: 'left'}}>
+          <TextField
+            value={this.state.input}
+            onChange={this.onInputChange}
+          />
+          <FlatButton
+            type="submit"
+            label="Save"
+          />
+          <FlatButton
+            type="button"
+            onClick={this.onHideEdit}
+            label="Cancel"
+          />
+        </form>
       );
     }
     return (
-      <td onClick={this.onShowEdit}>
+      <span style={{ float: 'left', paddingTop: '14px' }} onClick={this.onShowEdit}>
         {this.props.content}
-      </td>
+      </span>
     );
   }
 }

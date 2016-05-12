@@ -7,7 +7,7 @@
   },
   "scripts": {
     "clean": "rimraf client/dist",
-    "build": "webpack --progress --verbose --colors --display-error-details --config client/webpack/common.config.js",
+    "build": "webpack --verbose --colors --display-error-details --config client/webpack/common.config.js",
     "build:production": "npm run clean && npm run build",
     "lint": "eslint --ignore-path .gitignore **/*.js",
     "postinstall": "npm run build:production",

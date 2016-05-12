@@ -7,6 +7,7 @@ const type = thinky.type;
 const Comment = thinky.createModel('Comment', {
   id: type.string(),
   authorId: type.string().required(),
+  authorName: type.string(),
   content: type.string().required(),
   ideaId: type.string().required(),
   boardId: type.string().required(),
