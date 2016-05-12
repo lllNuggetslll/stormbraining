@@ -12,7 +12,6 @@ export default function (state = INITIAL_STATE, action) {
       return { ...state, authoredBoards: newBoards };
 
     case DELETE_BOARD:
-      console.log(action.payload);
       const idToDelete = action.payload.data.board.id;
       const remainingBoards = state.authoredBoards.filter((board) => board.id !== idToDelete);
       return { ...state, authoredBoards: remainingBoards };

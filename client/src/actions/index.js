@@ -58,6 +58,14 @@ export function updateIdea(idea, id, ideaId) {
   };
 }
 
+export function branchIdeaToBoard(title) {
+  const request = axios.post(`${ROOT_URL}/boards`, { title });
+  return {
+    type: types.BRANCH_IDEA_TO_BOARD,
+    payload: request,
+  };
+}
+
 export function newBoard(title) {
   const request = axios.post(`${ROOT_URL}/boards`, { title });
   return {

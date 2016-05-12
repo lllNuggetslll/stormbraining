@@ -10,6 +10,9 @@ export default function (state = INITIAL_STATE, action) {
     case types.GET_ONE_BOARD:
       return action.payload.data.board;
 
+    case types.BRANCH_IDEA_TO_BOARD:
+      return INITIAL_STATE;
+
     case types.UP_VOTE:
       return state;
 

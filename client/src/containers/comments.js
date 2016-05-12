@@ -7,6 +7,7 @@ import X from 'material-ui/svg-icons/content/clear';
 import { CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { pink500 } from 'material-ui/styles/colors';
 
 import { addComment, deleteComment } from '../actions/index';
 
@@ -60,7 +61,7 @@ class Comments extends Component {
             {data.content}
           </span>
           <IconButton onClick={this.deleteComment.bind(this, data)} >
-            <X />
+            <X hoverColor={pink500}/>
           </IconButton>
         </div>
       );
