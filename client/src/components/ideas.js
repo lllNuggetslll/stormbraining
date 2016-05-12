@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 
 import IdeaInput from '../containers/idea_input';
 import IdeaList from '../containers/idea_list';
+import Chat from '../containers/chats';
 
 class Ideas extends Component {
 
@@ -41,7 +42,10 @@ class Ideas extends Component {
   render() {
     return (
       <div>
-        <h2>Topic: {this.props.board.title}</h2>
+        <div>
+          <Chat {...this.props} />
+          <h2>Topic: {this.props.board.title}</h2>
+        </div>
         <IdeaInput {...this.props} />
         <IdeaList {...this.props} />
       </div>

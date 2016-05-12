@@ -4,7 +4,14 @@ import Users from './users';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
 import Drawer from 'material-ui/Drawer';
-import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline';
+
+const style = {
+  float: 'left',
+  position: 'relative',
+  marginLeft: '1%',
+};
 
 export default class Chat extends Component {
 
@@ -35,10 +42,12 @@ export default class Chat extends Component {
   render() {
     return (
       <div>
-        <RaisedButton
-          label="Chat"
+        <FloatingActionButton
+          style={style}
           onTouchTap={this.handleToggle}
-        />
+        >
+        <ChatBubble />
+        </FloatingActionButton>
         <Drawer
           docked={false}
           width={400}

@@ -5,7 +5,12 @@ import { addActiveUser, getActiveUsers, deleteActiveUser } from '../actions/inde
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
+import Paper from 'material-ui/Paper';
+import { green500 } from 'material-ui/styles/colors';
+
+const paper = {
+  backgroundColor: green500,
+};
 
 class Users extends Component {
 
@@ -46,7 +51,7 @@ class Users extends Component {
         <ListItem key={data.id}
           primaryText={data.name}
           disabled={true}
-          rightIcon={<ActionGrade />}
+          rightIcon={<Paper style={paper} zDepth={2} circle />}
         />
     );
   }

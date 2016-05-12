@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { newIdea, shuffleIdeas, joinBoard, leaveBoard } from '../actions/index';
-import Chat from './chats';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -85,7 +84,6 @@ class IdeaInput extends Component {
               onTouchTap={this.onLeaveBoard}
             />
           </form>
-          <Chat {...this.props} />
         </div>
       );
     }
