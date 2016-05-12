@@ -44,6 +44,7 @@ class Home extends Component {
   renderBoardListing(data) {
     return (
       <TableRow {...this.props} key={data.id}>
+        <TableRowColumn></TableRowColumn>
         <TableRowColumn>{data.title}</TableRowColumn>
         <TableRowColumn>
           <RaisedButton
@@ -54,6 +55,7 @@ class Home extends Component {
           />
         </TableRowColumn>
         <TableRowColumn>{this.deleteButton(data)}</TableRowColumn>
+        <TableRowColumn></TableRowColumn>
       </TableRow>
     );
   }
@@ -63,30 +65,19 @@ class Home extends Component {
       <div>
         <h1>Welcome, {this.props.user.name}!</h1>
         <BoardInput />
-        <div>
+        <h3>Your Boards</h3>
           <Table>
-            <TableHeader displaySelectAll={false}>
-              <TableRow>
-                <TableRowColumn><h3>Your Boards</h3></TableRowColumn>
-              </TableRow>
-            </TableHeader>
             <TableBody displayRowCheckbox={false}>
               {this.props.user.authoredBoards.map(this.renderBoardListing)}
             </TableBody>
           </Table>
-        </div>
-        <div>
+          <h3>Boards You Have Joined</h3>
           <Table>
-            <TableHeader displaySelectAll={false}>
-              <TableRow>
-                <TableRowColumn><h3>Boards You Have Joined</h3></TableRowColumn>
-              </TableRow>
-            </TableHeader>
             <TableBody displayRowCheckbox={false}>
               {this.props.user.boards.map(this.renderBoardListing)}
             </TableBody>
           </Table>
-        </div>
+
       </div>
     );
   }
@@ -101,4 +92,3 @@ function mapStateToProps({ user }) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-

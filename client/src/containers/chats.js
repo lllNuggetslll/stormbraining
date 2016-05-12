@@ -26,18 +26,20 @@ export default class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'a',
+      value: 'b',
       open: false,
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
-  handleChange = (value) => {
+  handleChange(value) {
     this.setState({ ...this.state, value });
-  };
+  }
 
-  handleToggle = () => this.setState({ open: !this.state.open });
-
-  handleClose = () => this.setState({ open: false });
+  handleToggle() {
+    this.setState({ ...this.state, open: !this.state.open });
+  }
 
   render() {
     return (
@@ -52,7 +54,7 @@ export default class Chat extends Component {
           docked={false}
           width={400}
           open={this.state.open}
-          onRequestChange={(open) => this.setState({ open })}
+          onRequestChange={(open) => this.setState({ ...this.state, open })}
         >
           <Tabs
             value={this.state.value}

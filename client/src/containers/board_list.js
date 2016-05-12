@@ -64,6 +64,7 @@ class BoardList extends Component {
           <TableRowColumn>
             {this.deleteButton(data)}
           </TableRowColumn>
+          <TableRowColumn />
         </TableRow>
     );
   }

@@ -46,7 +46,7 @@ class ChatList extends Component {
   }
 
   onInputChange(event) {
-    event.preventDefault();
+    event.stopPropagation();
     this.setState({ term: event.target.value });
   }
 
@@ -65,7 +65,7 @@ class ChatList extends Component {
       <TableRow key={data.id}>
         <TableRowColumn>{data.userName}</TableRowColumn>
         <TableRowColumn>{data.message}</TableRowColumn>
-        <TableRowColumn>{data.createdAt}</TableRowColumn>
+        <TableRowColumn>{moment(data.createdAt).toString()}</TableRowColumn>
       </TableRow>
     );
   }

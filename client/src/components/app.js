@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { receiveLogout } from '../actions/auth_actions';
-import { browserHistory, Link } from 'react-router';
+import { Link } from 'react-router';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -12,7 +12,6 @@ import '../containers/styles/main.scss';
 
 const styles = {
   title: {
-    cursor: 'pointer',
     float: 'left',
   },
 };
@@ -33,10 +32,6 @@ const iconStyles = {
   display: 'inline-block',
   color: 'cyan50',
 };
-
-function handleTouchTap() {
-  browserHistory.push('/');
-}
 
 export default class App extends Component {
 
@@ -63,12 +58,14 @@ export default class App extends Component {
           <Paper style={paper} zDepth={4}>
             <AppBar
               title={<span style={styles.title}>Stormbraining</span>}
-              onTitleTouchTap={handleTouchTap}
-              iconElementLeft={
-                <Paper style={iconStyles} zDepth={1} circle />
-              }
+              iconElementLeft={<div />}
               iconElementRight={
                 <Tabs>
+                  <Tab
+                    className="tabs-boards"
+                    label="Home"
+                    containerElement={<Link to="/" />}
+                  />
                   <Tab
                     className="tabs-boards"
                     label="Boards"
