@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getOneBoard, sortIdeasByVotes, sortIdeasByContent } from '../actions/index';
 import Idea from './idea';
-import Comments from './comments';
 
 import ArrowDown from 'material-ui/svg-icons/navigation/expand-more';
 import ArrowUp from 'material-ui/svg-icons/navigation/expand-less';
 import Reorder from 'material-ui/svg-icons/action/reorder';
-import { Card } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
 
@@ -32,8 +30,10 @@ class IdeaList extends Component {
     getOneBoard: PropTypes.func,
     board: PropTypes.object.isRequired,
     userId: PropTypes.string.isRequired,
+    userName: PropTypes.string.isRequired,
     sortIdeasByVotes: PropTypes.func,
     sortIdeasByContent: PropTypes.func,
+    joined: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -62,13 +62,11 @@ class IdeaList extends Component {
 
   renderIdea(data) {
     const userId = this.props.userId;
-    // console.log(data)
+    const userName = this.props.userName;
+    const joined = this.props.joined;
     return (
-      <div style={{ padding: '10px'}} key={data.id}>
-      <Card>
-        <Idea {...data} userId={userId} />
-        <Comments {...data} userId={userId} userName={this.props.userName}/>
-      </Card>
+      <div style={{ padding: '10px' }} key={data.id}>
+        <Idea {...data} userId={userId} joined={joined} userName={userName} />
       </div>
     );
   }
@@ -76,10 +74,10 @@ class IdeaList extends Component {
   render() {
     return (
       <div>
-        <FlatButton style={{paddingRight: '10px'}} onClick={this.onSortIdeasByContent}>
+        <FlatButton style={{ paddingRight: '10px' }} onClick={this.onSortIdeasByContent}>
           Sort by Idea {Arrows[this.state.sorting.byContent]}
         </FlatButton>
-        <FlatButton style={{paddingLeft: '10px'}} onClick={this.onSortIdeasByVotes}>
+        <FlatButton style={{ paddingLeft: '10px' }} onClick={this.onSortIdeasByVotes}>
           Sort by Votes {Arrows[this.state.sorting.byVotes]}
         </FlatButton>
         {this.props.board.ideas.map(this.renderIdea)}

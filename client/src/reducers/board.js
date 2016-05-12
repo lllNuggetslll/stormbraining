@@ -1,36 +1,25 @@
-import {
-  NEW_IDEA,
-  GET_ONE_BOARD,
-  UP_VOTE,
-  DELETE_IDEA,
-  CLEAR_BOARD_VIEW,
-  REFRESH_BOARD_VIEW,
-  SHUFFLE_IDEAS,
-  SORT_IDEAS_BY_VOTES,
-  SORT_IDEAS_BY_CONTENT,
-  SYNC_COMMENT,
-} from '../actions/action_types';
+import * as types from '../actions/action_types';
 
-const INITIAL_STATE = { id: '', title: '', ideas: [], messages: [] };
+const INITIAL_STATE = { id: '', title: '', ideas: [], messages: [], members: [], authorId: '' };
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case NEW_IDEA:
+    case types.NEW_IDEA:
       return state;
 
-    case GET_ONE_BOARD:
+    case types.GET_ONE_BOARD:
       return action.payload.data.board;
 
-    case UP_VOTE:
+    case types.UP_VOTE:
       return state;
 
-    case DELETE_IDEA:
+    case types.DELETE_IDEA:
       return state;
 
-    case CLEAR_BOARD_VIEW:
+    case types.CLEAR_BOARD_VIEW:
       return INITIAL_STATE;
 
-    case REFRESH_BOARD_VIEW:
+    case types.REFRESH_BOARD_VIEW:
       let changedIdea = action.payload;
       let updateComplete = false;
       // Update idea based on whether or not it is marked toBeDeleted and by matching ids
@@ -53,7 +42,7 @@ export default function (state = INITIAL_STATE, action) {
       }
       return { ...state, ideas: updatedIdeas };
 
-    case SHUFFLE_IDEAS:
+    case types.SHUFFLE_IDEAS:
       let i = 0;
       let j = 0;
       let temp = null;
@@ -68,7 +57,7 @@ export default function (state = INITIAL_STATE, action) {
 
       return { ...state, ideas: arrayRandom };
 
-    case SORT_IDEAS_BY_VOTES:
+    case types.SORT_IDEAS_BY_VOTES:
       const arrayByVotes = state.ideas.slice();
       const orderVotes = action.order;
 
@@ -80,7 +69,7 @@ export default function (state = INITIAL_STATE, action) {
 
       return { ...state, ideas: arrayByVotes };
 
-    case SORT_IDEAS_BY_CONTENT:
+    case types.SORT_IDEAS_BY_CONTENT:
       const arrayByContent = state.ideas.slice();
       const orderContent = action.order;
 
@@ -94,7 +83,7 @@ export default function (state = INITIAL_STATE, action) {
 
       return { ...state, ideas: arrayByContent };
 
-    case SYNC_COMMENT:
+    case types.SYNC_COMMENT:
       const changedIdeas = state.ideas.slice();
       changedIdeas.forEach(idea => {
         if (idea.id === action.comment.ideaId) {
@@ -109,6 +98,12 @@ export default function (state = INITIAL_STATE, action) {
         }
       });
       return { ...state, ideas: changedIdeas };
+
+    case types.JOIN_BOARD:
+      return { ...state, members: action.payload.data.board.members };
+
+    case types.LEAVE_BOARD:
+      return { ...state, members: action.payload.data.board.members };
 
     default:
       return state;

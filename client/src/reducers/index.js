@@ -5,6 +5,7 @@ import AuthReducer from './auth';
 import { routerReducer } from 'react-router-redux';
 import ChatReducer from './chat';
 import ActiveUserReducer from './activeuser';
+import UserReducer from './user';
 
 const rootReducer = combineReducers({
   board: BoardReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   routing: routerReducer,
   chat: ChatReducer,
   activeuser: ActiveUserReducer,
+  user: UserReducer,
 });
 
 export default rootReducer;

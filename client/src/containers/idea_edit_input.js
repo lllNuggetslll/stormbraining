@@ -14,6 +14,7 @@ class IdeaEditInput extends Component {
     userId: PropTypes.string.isRequired,
     authorId: PropTypes.string.isRequired,
     updateIdea: PropTypes.func.isRequired,
+    joined: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
@@ -27,7 +28,7 @@ class IdeaEditInput extends Component {
   }
 
   onShowEdit() {
-    if (this.props.userId === this.props.authorId) {
+    if (this.props.userId === this.props.authorId && this.props.joined) {
       this.setState({ input: this.props.content, showEditInput: true });
     }
   }
@@ -49,10 +50,11 @@ class IdeaEditInput extends Component {
   }
 
   render() {
-    if (this.state.showEditInput) {
+    if (this.state.showEditInput && this.props.joined) {
       return (
-        <form onSubmit={this.onFormSubmit} style={{ display: 'inline-block', float: 'left'}}>
+        <form onSubmit={this.onFormSubmit} style={{ display: 'inline-block', float: 'left' }}>
           <TextField
+            id={this.props.id}
             value={this.state.input}
             onChange={this.onInputChange}
           />

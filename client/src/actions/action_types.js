@@ -25,6 +25,9 @@ export const DELETE_ACTIVEUSER = 'DELETE_ACTIVEUSER';
 
 // User actions
 export const SAVE_OR_FETCH_USER = 'SAVE_OR_FETCH_USER';
+export const GET_USER = 'GET_USER';
+export const JOIN_BOARD = 'JOIN_BOARD';
+export const LEAVE_BOARD = 'LEAVE_BOARD';
 
 // Auth Actions
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';

@@ -46,9 +46,8 @@ class BoardInput extends Component {
         <RaisedButton
           type="submit"
           className="board-button"
-        >
-          Submit
-        </RaisedButton>
+          label="Submit"
+        />
       </form>
       </div>
     );

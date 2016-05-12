@@ -19,3 +19,5 @@ const Comment = require('./Comment').default;
 User.hasMany(Board, 'authoredBoards', 'id', 'authorId');
 User.hasMany(Idea, 'ideas', 'id', 'authorId');
 User.hasMany(Comment, 'comments', 'id', 'authorId');
+User.hasAndBelongsToMany(Board, 'boards', 'id', 'id');
+User.ensureIndex('createdAt');

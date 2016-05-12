@@ -37,7 +37,12 @@ export default function routes(app, express) {
     .delete(CommentController.deleteComment);
 
   app.route('/api/users')
+    .get(UserController.getUser)
     .post(UserController.addUser);
+
+  app.route('/api/users/:board_id')
+    .post(BoardController.joinUserToBoard)
+    .put(BoardController.removeUserFromBoard);
 
   app.route('/api/messages/:board_id')
     .get(MessageController.getMessages)

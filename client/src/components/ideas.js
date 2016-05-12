@@ -39,9 +39,6 @@ class Ideas extends Component {
   }
 
   render() {
-    if (!this.props.board) {
-      return <div>Thinking...</div>;
-    }
     return (
       <div>
         <h2>Topic: {this.props.board.title}</h2>
@@ -53,7 +50,11 @@ class Ideas extends Component {
 }
 
 function mapStateToProps({ board, auth }) {
-  return { board, userId: auth.profile.user_id, userName: auth.profile.nickname };
+  const userId = auth.profile.user_id;
+  const userName = auth.profile.nickname;
+  const memberIds = board.members.map((member) => member.id);
+  const joined = memberIds.indexOf(userId) > -1 || userId === board.authorId;
+  return { board, userId, userName, joined };
 }
 
 export default connect(mapStateToProps, { getOneBoard, refreshBoardView, clearBoardView, syncComment })(Ideas);

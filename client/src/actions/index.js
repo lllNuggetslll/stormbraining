@@ -200,3 +200,27 @@ export function deleteActiveUser(boardId) {
     payload: request,
   };
 }
+
+export function getUser() {
+  const request = axios.get(`${ROOT_URL}/users`);
+  return {
+    type: types.GET_USER,
+    payload: request,
+  };
+}
+
+export function joinBoard(boardId) {
+  const request = axios.post(`${ROOT_URL}/users/${boardId}`);
+  return {
+    type: types.JOIN_BOARD,
+    payload: request,
+  };
+}
+
+export function leaveBoard(boardId) {
+  const request = axios.put(`${ROOT_URL}/users/${boardId}`);
+  return {
+    type: types.LEAVE_BOARD,
+    payload: request,
+  };
+}
