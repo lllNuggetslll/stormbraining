@@ -1,8 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { newIdea, shuffleIdeas, joinBoard, leaveBoard } from '../actions/index';
+import { newIdea, joinBoard, leaveBoard } from '../actions/index';
+import { newTimedBoard } from '../actions/timed_board_actions';
+import Invite from './invite';
+import StartSession from './start_session';
 
+import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import './styles/main.scss';
@@ -12,26 +16,29 @@ class IdeaInput extends Component {
   static propTypes = {
     params: PropTypes.object.isRequired,
     newIdea: PropTypes.func.isRequired,
-    shuffleIdeas: PropTypes.func.isRequired,
     joinBoard: PropTypes.func.isRequired,
     leaveBoard: PropTypes.func.isRequired,
+    newTimedBoard: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
     board: PropTypes.object.isRequired,
     joined: PropTypes.bool.isRequired,
   }
 
+    static contextTypes = {
+      muiTheme: PropTypes.object.isRequired,
+    };
+
   constructor(props) {
     super(props);
-    this.state = { term: '' };
+    this.state = { term: '', open: false };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.onShuffle = this.onShuffle.bind(this);
     this.onJoinBoard = this.onJoinBoard.bind(this);
     this.onLeaveBoard = this.onLeaveBoard.bind(this);
   }
 
   onInputChange(event) {
-    this.setState({ term: event.target.value });
+    this.setState({ ...this.state, term: event.target.value });
   }
 
   onFormSubmit(event) {
@@ -40,11 +47,7 @@ class IdeaInput extends Component {
       this.props.newIdea(this.state.term, this.props.params.board_id);
     }
 
-    this.setState({ term: '' });
-  }
-
-  onShuffle() {
-    this.props.shuffleIdeas();
+    this.setState({ term: '', open: true });
   }
 
   onJoinBoard() {
@@ -53,6 +56,25 @@ class IdeaInput extends Component {
 
   onLeaveBoard() {
     this.props.leaveBoard(this.props.board.id);
+  }
+
+
+  handleRequestClose = () => {
+    this.setState({ ...this.state, open: false });
+  }
+
+  renderInviteOrLeave() {
+    if (this.props.board.authorId === JSON.parse(localStorage.profile).user_id) {
+      return <Invite {...this.props} />;
+    }
+    return (
+      <RaisedButton
+        type="button"
+        className="idea-button"
+        label="Leave Board"
+        onTouchTap={this.onLeaveBoard}
+      />
+    );
   }
 
   render() {
@@ -71,18 +93,15 @@ class IdeaInput extends Component {
               className="idea-button"
               label="Submit"
             />
-            <RaisedButton
-              type="button"
-              className="idea-button"
-              label="Shuffle Ideas"
-              onTouchTap={this.onShuffle}
+            <Snackbar
+              open={this.state.open}
+              message="Idea added"
+              autoHideDuration={3000}
+              onRequestClose={this.handleRequestClose}
+              bodyStyle={{ backgroundColor: this.context.muiTheme.palette.primary3Color }}
             />
-            <RaisedButton
-              type="button"
-              className="idea-button"
-              label="Leave Board"
-              onTouchTap={this.onLeaveBoard}
-            />
+            {this.renderInviteOrLeave()}
+            <StartSession {...this.props} />
           </form>
         </div>
       );
@@ -102,7 +121,7 @@ class IdeaInput extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ newIdea, shuffleIdeas, joinBoard, leaveBoard }, dispatch);
+  return bindActionCreators({ newIdea, joinBoard, leaveBoard, newTimedBoard }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(IdeaInput);

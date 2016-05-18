@@ -22,10 +22,13 @@ describe('board reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {}))
       .toEqual({
+        authorId: '',
         id: '',
         title: '',
+        members: [],
         ideas: [],
         messages: [],
+        isLoading: false,
       });
   });
 
@@ -39,7 +42,7 @@ describe('board reducer', () => {
       });
   });
 
-  it('should handle GET_ONE_BOARD', () => {
+  it('should handle GET_ONE_BOARD_SUCCESS', () => {
     const anotherIdea = {
       id: 2,
       content: 'This is another idea!',
@@ -55,10 +58,10 @@ describe('board reducer', () => {
     };
 
     expect(reducer(state, {
-      type: types.GET_ONE_BOARD,
-      payload: { data: { board } },
+      type: types.GET_ONE_BOARD_SUCCESS,
+      payload: board,
     }))
-      .toEqual({ ...board });
+      .toEqual({ ...board, isLoading: false });
   });
 
   it('should handle UP_VOTE', () => {

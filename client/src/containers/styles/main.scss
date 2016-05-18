@@ -1,5 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
 
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  overflow: hidden;
+}
+
 .tabs-boards {
   letter-spacing: 1px;
 }
@@ -11,19 +20,17 @@
 
 .login-title {
   font-family: Roboto;
-  margin-top: 20%;
+  position: relative;
+  top: 25%;
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-left: 5%;
+  }
 }
 
-.title {
-  font-size: 64px;
-  letter-spacing: 1px;
-}
 
-.login-button {
-  margin-top: 15%;
-  width: 50%;
-  font-size: 28px;
-}
 
 .board-input-container {
   width: 100%;
@@ -41,4 +48,38 @@
   .idea-button {
     margin-left: 5%;
   }
+}
+
+a, a:active, a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+a > img {
+  width: 100%;
+}
+
+.bubble{
+  background-color: #F2F2F2;
+  border-radius: 5px;
+  box-shadow: 0 0 6px #B2B2B2;
+  display: inline-block;
+  padding: 10px 18px;
+  position: relative;
+  vertical-align: top;
+}
+
+.bubble::before {
+  background-color: #F2F2F2;
+  content: "\00a0";
+  display: block;
+  height: 16px;
+  position: absolute;
+  top: 11px;
+  transform:             rotate( 29deg ) skew( -35deg );
+      -moz-transform:    rotate( 29deg ) skew( -35deg );
+      -ms-transform:     rotate( 29deg ) skew( -35deg );
+      -o-transform:      rotate( 29deg ) skew( -35deg );
+      -webkit-transform: rotate( 29deg ) skew( -35deg );
+  width:  20px;
 }

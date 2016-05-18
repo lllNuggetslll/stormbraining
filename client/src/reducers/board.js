@@ -1,14 +1,28 @@
 import * as types from '../actions/action_types';
 
-const INITIAL_STATE = { id: '', title: '', ideas: [], messages: [], members: [], authorId: '' };
+const INITIAL_STATE = {
+  id: '',
+  title: '',
+  ideas: [],
+  messages: [],
+  members: [],
+  authorId: '',
+  isLoading: false,
+};
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case types.NEW_IDEA:
       return state;
 
-    case types.GET_ONE_BOARD:
-      return action.payload.data.board;
+    case types.GET_ONE_BOARD_REQUEST:
+      return { ...state, isLoading: true };
+
+    case types.GET_ONE_BOARD_SUCCESS:
+      return { ...action.payload, isLoading: false };
+
+    case types.GET_ONE_BOARD_ERROR:
+      return { ...state, isLoading: false };
 
     case types.BRANCH_IDEA_TO_BOARD:
       return INITIAL_STATE;
@@ -29,7 +43,7 @@ export default function (state = INITIAL_STATE, action) {
       const updatedIdeas = state.ideas.reduce((memo, idea) => {
         if (idea.id === changedIdea.id) {
           if (!changedIdea.toBeDeleted) {
-            const update = Object.assign(idea, changedIdea);
+            const update = { ...idea, ...changedIdea };
             memo.push(update);
           }
           updateComplete = true;
@@ -40,7 +54,7 @@ export default function (state = INITIAL_STATE, action) {
       }, []);
       // Add new idea if changedIdea id did not matching existing ids
       if (!updateComplete && !changedIdea.toBeDeleted) {
-        changedIdea = Object.assign(changedIdea, { comments: [] });
+        changedIdea = { ...changedIdea, comments: [] };
         updatedIdeas.push(changedIdea);
       }
       return { ...state, ideas: updatedIdeas };
@@ -86,19 +100,25 @@ export default function (state = INITIAL_STATE, action) {
 
       return { ...state, ideas: arrayByContent };
 
+    case types.SORT_IDEAS_BY_TIME:
+      const arrayByTime = state.ideas.slice();
+      const orderTime = action.order;
+
+      arrayByTime.sort((a, b) => {
+        if (orderTime === 1) { return new Date(b.createdAt) - new Date(a.createdAt); }
+        if (orderTime === 0) { return new Date(a.createdAt) - new Date(b.createdAt); }
+      });
+
+      return { ...state, ideas: arrayByTime };
+
     case types.SYNC_COMMENT:
-      const changedIdeas = state.ideas.slice();
-      changedIdeas.forEach(idea => {
+      const changedIdeas = state.ideas.map(idea => {
         if (idea.id === action.comment.ideaId) {
-          idea.comments = idea.comments.reduce((memo, comment) => {
-            if (comment.id === action.comment.id && action.comment.toBeDeleted) {
-              return memo;
-            }
-            memo.push(comment);
-            return memo;
-          }, []);
-          if (!action.comment.toBeDeleted) {idea.comments.push(action.comment);}
+          idea.comments = action.comment.toBeDeleted
+            ? idea.comments.filter(comment => comment.id !== action.comment.id)
+            : [...idea.comments, action.comment];
         }
+        return idea;
       });
       return { ...state, ideas: changedIdeas };
 

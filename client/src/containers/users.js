@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { addActiveUser, getActiveUsers, deleteActiveUser } from '../actions/index';
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
@@ -16,42 +15,43 @@ class Users extends Component {
 
   static propTypes = {
     params: PropTypes.object,
-    addActiveUser: PropTypes.func,
-    getActiveUsers: PropTypes.func,
-    deleteActiveUser: PropTypes.func,
     board: PropTypes.object,
-    activeuser: PropTypes.array,
   }
 
   constructor(props) {
     super(props);
 
+    this.state = { users: [] };
     this.renderUsers = this.renderUsers.bind(this);
-  }
 
-  componentWillMount() {
-    this.props.getActiveUsers(this.props.params.board_id);
     this.socket = io();
     this.socket.on('connect', () => {
-      this.socket.emit('subscribe', this.props.board.id);
-      this.props.addActiveUser(this.props.board.id, JSON.parse(localStorage.profile).name);
+      this.socket.emit('subscribe', { board: this.props.params.board_id, check: 1, user: JSON.parse(localStorage.profile).name, email: JSON.parse(localStorage.profile).email });
     });
-    this.socket.on('user', () => {
-      this.props.getActiveUsers(this.props.board.id);
+    this.socket.on('user', (data) => {
+      if (data[this.props.params.board_id]) {
+        this.setState({ users: data[this.props.params.board_id] });
+      }
+    });
+    this.socket.on('left', (data) => {
+      if (data[this.props.params.board_id]) {
+        this.setState({ users: data[this.props.params.board_id] });
+      }
     });
   }
 
+
   componentWillUnmount() {
-    this.props.deleteActiveUser(this.props.board.id);
-    this.socket.emit('unsubscribe', this.props.params.board_id);
+    this.socket.emit('unsubscribe', { board: this.props.params.board_id, check: 2, user: JSON.parse(localStorage.profile).name, email: JSON.parse(localStorage.profile).email });
+    this.socket.disconnect();
   }
 
   renderUsers(data) {
     return (
-        <ListItem key={data.id}
-          primaryText={data.name}
+        <ListItem key={data[0]}
+          primaryText={data[1]}
           disabled={true}
-          rightIcon={<Paper style={paper} zDepth={2} circle />}
+          rightIcon={<Paper style={paper} zDepth={1} circle />}
         />
     );
   }
@@ -59,9 +59,9 @@ class Users extends Component {
   render() {
     return (
       <List>
-        <Subheader>Active Users</Subheader>
+        <Subheader>Active Users: {this.state.users.length}</Subheader>
         <div>
-          {this.props.activeuser.map(this.renderUsers)}
+          {this.state.users.map(this.renderUsers)}
         </div>
       </List>
     );
@@ -69,8 +69,8 @@ class Users extends Component {
 }
 
 
-function mapStateToProps({ board, activeuser }) {
-  return { board, activeuser };
+function mapStateToProps({ board }) {
+  return { board };
 }
 
-export default connect(mapStateToProps, { addActiveUser, getActiveUsers, deleteActiveUser })(Users);
+export default connect(mapStateToProps)(Users);

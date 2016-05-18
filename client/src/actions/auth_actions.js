@@ -3,7 +3,6 @@ import * as types from './action_types';
 export function receiveLogout() {
   return {
     type: types.LOGOUT_SUCCESS,
-    isAuthenticated: false,
   };
 }
 

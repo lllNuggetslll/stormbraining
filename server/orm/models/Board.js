@@ -20,11 +20,13 @@ const User = require('./User').default;
 const Message = require('./Message').default;
 const Comment = require('./Comment').default;
 const ActiveUser = require('./ActiveUser').default;
+const TimedBoard = require('./TimedBoard').default;
 Board.belongsTo(User, 'author', 'authorId', 'id');
 Board.hasMany(Idea, 'ideas', 'id', 'boardId');
 Board.hasMany(Comment, 'comments', 'id', 'boardId');
 Board.hasMany(Message, 'messages', 'id', 'boardId');
 Board.hasMany(ActiveUser, 'activeUser', 'id', 'boardId');
+Board.hasMany(TimedBoard, 'timedBoards', 'id', 'boardId');
 Board.hasAndBelongsToMany(User, 'members', 'id', 'id');
 Board.ensureIndex('createdAt');
 

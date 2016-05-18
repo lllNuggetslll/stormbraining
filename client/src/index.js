@@ -11,7 +11,7 @@ import { syncHistoryWithStore, routerActions, routerMiddleware } from 'react-rou
 import Login from './containers/login';
 import App from './components/app';
 import Ideas from './components/ideas';
-import Boards from './components/boards';
+import TimedBoard from './components/timed_board';
 import Home from './components/home';
 import NotFound from './components/not_found';
 import reducers from './reducers';
@@ -25,7 +25,8 @@ const store = createStore(reducers, applyMiddleware(thunkMiddleware, promise, ro
 const history = syncHistoryWithStore(browserHistory, store);
 
 const UserIsAuthenticated = UserAuthWrapper({
-  authSelector: state => state.auth.profile,
+  authSelector: (state) => state.auth,
+  predicate: (auth) => auth.isAuthenticated,
   redirectAction: routerActions.replace,
   wrapperDisplayName: 'UserIsAuthenticated',
   allowRedirectBack: false,
@@ -37,8 +38,8 @@ render(
       <Route path="/login" component={ Login } />
       <Route path="/" component={ UserIsAuthenticated(App) } >
         <IndexRoute component={ Home } />
-        <Route path="/boards" component={ Boards } />
         <Route path="/boards/:board_id" component={ Ideas } />
+        <Route path="/timed/:timed_board_id" component={ TimedBoard } />
       </Route>
       <Route path="*" component={ NotFound } />
     </Router>

@@ -3,7 +3,7 @@ import { GET_ACTIVEUSER, ADD_ACTIVEUSER, DELETE_ACTIVEUSER } from '../actions/ac
 export default function (state = [], action) {
   switch (action.type) {
     case GET_ACTIVEUSER:
-      return action.payload.data.user;
+      return action.payload.data.user || state;
 
     case ADD_ACTIVEUSER:
       return state;

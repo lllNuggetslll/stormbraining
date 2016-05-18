@@ -7,7 +7,7 @@ import X from 'material-ui/svg-icons/content/clear';
 import { CardText } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import { pink500 } from 'material-ui/styles/colors';
+
 
 import { addComment, deleteComment } from '../actions/index';
 
@@ -25,6 +25,10 @@ class Comments extends Component {
     authorId: PropTypes.string,
     joined: PropTypes.bool.isRequired,
   }
+
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  };
 
   constructor(props) {
     super(props);
@@ -57,11 +61,11 @@ class Comments extends Component {
       return (
         <div key={data.id}>
           <span style={{ position: 'relative', top: '-5px' }}>
-            <span style={{ color: '#BDBDBD', paddingRight: '15px' }}>{data.authorName} </span>
+            <span style={{ color: this.context.muiTheme.palette.primary2Color, paddingRight: '15px' }}>{data.authorName} </span>
             {data.content}
           </span>
           <IconButton onClick={this.deleteComment.bind(this, data)} >
-            <X hoverColor={pink500}/>
+            <X hoverColor={this.context.muiTheme.palette.accent1Color}/>
           </IconButton>
         </div>
       );
@@ -69,7 +73,7 @@ class Comments extends Component {
     return (
       <p key={data.id}>
         <span style={{ position: 'relative', top: '-5px' }}>
-          <span style={{ color: '#BDBDBD', paddingRight: '15px' }}>{data.authorName} </span>
+          <span style={{ color: this.context.muiTheme.palette.primary2Color, paddingRight: '15px' }}>{data.authorName} </span>
           {data.content}
         </span>
       </p>

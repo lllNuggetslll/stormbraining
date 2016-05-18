@@ -1,30 +1,36 @@
-import { LOGOUT_SUCCESS, LOCK_SUCCESS, LOCK_ERROR, SAVE_OR_FETCH_USER } from '../actions/action_types';
+import * as types from '../actions/action_types';
 
+const idToken = localStorage.getItem('id_token');
 const INITIAL_STATE = {
-  isAuthenticated: localStorage.getItem('id_token') ? true : false,
+  isAuthenticated: idToken && idToken !== 'null' ? true : false,
   errorMessage: '',
   profile: JSON.parse(localStorage.getItem('profile')),
 };
 
 export default function auth(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case LOCK_SUCCESS:
+    case types.LOCK_SUCCESS:
       return Object.assign({}, state, {
         isAuthenticated: true,
         errorMessage: '',
         profile: action.profile,
       });
-    case LOCK_ERROR:
+
+    case types.LOCK_ERROR:
       return Object.assign({}, state, {
         isAuthenticated: false,
-        errorMessage: action.err,
+        errorMessage: action.err.message,
+        profile: {},
       });
-    case LOGOUT_SUCCESS:
+
+    case types.LOGOUT_SUCCESS:
       return Object.assign({}, state, {
         isAuthenticated: false,
         errorMessage: '',
+        profile: {},
       });
-    case SAVE_OR_FETCH_USER:
+
+    case types.SAVE_OR_FETCH_USER:
       return state;
 
     default:

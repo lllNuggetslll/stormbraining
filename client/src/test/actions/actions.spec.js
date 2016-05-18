@@ -54,21 +54,15 @@ describe('async actions', () => {
     });
   });
 
-  it('should create action GET_ONE_BOARD when finished retrieving a board', () => {
-    nock(ROOT_URL)
-      .get(`/boards/${board.id}`)
-      .reply(200, { data: { board } });
-
+  it('should create action GET_ONE_BOARD_SUCCESS when finished retrieving a board', () => {
     const expectedAction = {
-      type: types.GET_ONE_BOARD,
-      payload: { data: { board } },
+      type: types.GET_ONE_BOARD_SUCCESS,
+      payload: board,
     };
-    const getOneBoardAction = actions.getOneBoard(board.id);
+    const getOneBoardAction = actions.getOneBoardSuccess({ board });
 
     expect(getOneBoardAction.type).toEqual(expectedAction.type);
-    getOneBoardAction.payload.then(payload => {
-      expect(payload).toEqual(expectedAction.payload);
-    });
+    expect(getOneBoardAction.payload).toEqual(expectedAction.payload);
   });
 
   it('should create action NEW_BOARD when finished creating new board', () => {

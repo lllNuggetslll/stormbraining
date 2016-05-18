@@ -1,8 +1,42 @@
 import Board from '../models/Board.js';
 import User from '../models/User.js';
 import helper from './helper.js';
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+// Uncomment the following line for local development!
+// dotenv.load();
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: process.env.NODEMAILER_EMAIL,
+    pass: process.env.NODEMAILER_PASSWORD,
+  },
+});
+
+const mailOptions = {
+  from: 'stormbrainingapp@gmail.com',
+};
 
 export default {
+  email: (req, res) => {
+    const toEmail = req.body.email.replace(/ /g, '').split(',');
+    mailOptions.subject = req.body.name + ' has invited you to join a board on Stormbraining!';
+    mailOptions.to = toEmail;
+    mailOptions.html = '<h2><b>Topic: ' + req.body.title + '!</b></h2>' +
+                        '<h3>Join here:</h3>' +
+                        req.body.link +
+                        '<p>Make it brain!</p>';
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Message sent:' + info.response);
+      }
+    });
+  },
+
   addBoard: (req, res) => {
     const { title } = req.body;
     const authorId = req.user.sub;
@@ -40,13 +74,9 @@ export default {
       members: true,
     }).run()
       .then((board) => {
-        board.ideas.forEach(idea => {
-          idea.comments = [];
-          board.comments.forEach(comment => {
-            if (comment.ideaId === idea.id) {
-              idea.comments.push(comment);
-            }
-          });
+        board.ideas = board.ideas.map((idea) => {
+          const comments = board.comments.filter((comment) => comment.ideaId === idea.id);
+          return { ...idea, comments };
         });
         delete board.comments;
         res.status(200).json({ board });
@@ -63,10 +93,11 @@ export default {
       comments: true,
       messages: true,
       activeUser: true,
+      timedBoards: true,
     }).run()
       .then((board) => {
         if (userId === board.authorId) {
-          board.deleteAll({ ideas: true, comments: true, messages: true })
+          board.deleteAll({ ideas: true, comments: true, messages: true, timedBoards: true })
             .then((board) => {
               res.status(201).json({ board });
             });

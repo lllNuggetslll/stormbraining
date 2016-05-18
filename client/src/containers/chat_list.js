@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { getMessages, addMessage } from '../actions/index';
 import io from 'socket.io-client';
 import { bindActionCreators } from 'redux';
+import ReactDOM from 'react-dom';
 
+import { grey400, darkBlack, bold } from 'material-ui/styles/colors';
+import { List, ListItem } from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader';
-import { Table, TableBody, TableRow, TableRowColumn } from 'material-ui';
+import './styles/main.scss';
 
 class ChatList extends Component {
 
@@ -17,6 +20,7 @@ class ChatList extends Component {
     board: PropTypes.object,
     addMessage: PropTypes.func,
     chat: PropTypes.array,
+    messageCount: PropTypes.number,
   }
 
   constructor(props) {
@@ -33,16 +37,22 @@ class ChatList extends Component {
       .then(() => {
         this.socket = io();
         this.socket.on('connect', () => {
-          this.socket.emit('subscribe', this.props.board.id);
-        });
-        this.socket.on('message', () => {
-          this.props.getMessages(this.props.board.id);
+          this.socket.emit('subscribe', this.props.params.board_id);
+          this.socket.on('message', () => {
+            this.props.getMessages(this.props.params.board_id);
+          });
         });
       });
   }
 
+  componentDidUpdate() {
+    const node = ReactDOM.findDOMNode(this);
+    node.scrollTop = node.scrollHeight;
+  }
+
   componentWillUnmount() {
-    this.socket.emit('unsubscribe', this.props.board.id);
+    this.socket.emit('unsubscribe', this.props.params.board_id);
+    this.socket.disconnect();
   }
 
   onInputChange(event) {
@@ -62,23 +72,39 @@ class ChatList extends Component {
 
   renderChats(data) {
     return (
-      <TableRow key={data.id}>
-        <TableRowColumn>{data.userName}</TableRowColumn>
-        <TableRowColumn>{data.message}</TableRowColumn>
-        <TableRowColumn>{moment(data.createdAt).toString()}</TableRowColumn>
-      </TableRow>
+        <ListItem key={data.id}
+          style={{
+            margin: '5px 5px 1px 5px',
+            padding: '8px 10px 5px 10px',
+          }}
+          className={'bubble'}
+          primaryText={
+            <p>
+              <span style={{ color: darkBlack, text: bold }}><strong>{data.userName}</strong></span>
+              <span style={{ color: grey400 }}>  {moment(data.createdAt).startOf('hour').fromNow().toString()}</span>
+              <br />
+              <br />
+              {data.message}
+            </p>
+          }
+          disabled={true}
+        />
     );
   }
 
   render() {
     return (
-      <div>
+      <div style={{ overflowY: 'scroll', maxHeight: '850px' }}>
+        <div>
+          <List>
+            <Subheader>Active Users</Subheader>
+            <div>
+              {this.props.chat.map(this.renderChats)}
+            </div>
+          </List>
+      </div>
+      <div style={{ position: 'fixed', bottom: '0' }}>
         <Subheader>ESC to exit</Subheader>
-        <Table>
-          <TableBody displayRowCheckbox={false}>
-            {this.props.chat.map(this.renderChats)}
-          </TableBody>
-        </Table>
         <form onSubmit={this.onChatSubmit}>
           <TextField
             hintText="Your message here..."
@@ -92,6 +118,7 @@ class ChatList extends Component {
           />
         </form>
       </div>
+    </div>
     );
   }
 }

@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ghostmoose/stormbraining.svg?branch=master)](https://travis-ci.org/ghostmoose/stormbraining)
 # stormbraining
 
 > Social brainstorming

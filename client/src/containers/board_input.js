@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { newBoard } from '../actions/index';
 
+import Snackbar from 'material-ui/Snackbar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import './styles/main.scss';
@@ -14,22 +15,30 @@ class BoardInput extends Component {
     userId: PropTypes.string.isRequired,
   }
 
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = { board: '' };
+    this.state = { board: '', open: false };
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
   onInputChange(event) {
-    this.setState({ board: event.target.value });
+    this.setState({ ...this.state, board: event.target.value });
   }
 
   onFormSubmit(event) {
     event.preventDefault();
     this.props.newBoard(this.state.board);
-    this.setState({ board: '' });
+    this.setState({ board: '', open: true });
+  }
+
+  handleRequestClose = () => {
+    this.setState({ ...this.state, open: false });
   }
 
   render() {
@@ -42,6 +51,13 @@ class BoardInput extends Component {
           value={this.state.board}
           onChange={this.onInputChange}
           className="board-input"
+        />
+        <Snackbar
+          open={this.state.open}
+          message="Brainstorm created"
+          autoHideDuration={3000}
+          onRequestClose={this.handleRequestClose}
+          bodyStyle={{ backgroundColor: this.context.muiTheme.palette.primary3Color }}
         />
         <RaisedButton
           type="submit"

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as types from './action_types';
+import { lockError } from './auth_actions';
 
 // Attaches Authentication token to outgoing API requests
 axios.interceptors.request.use((config) => {
@@ -83,10 +84,39 @@ export function getBoards() {
 }
 
 export function getOneBoard(id) {
-  const request = axios.get(`${ROOT_URL}/boards/${id}`);
+  return dispatch => {
+    dispatch(getOneBoardRequest());
+    return axios.get(`${ROOT_URL}/boards/${id}`)
+      .then(res => {
+        setTimeout(() => dispatch(getOneBoardSuccess(res.data)), 500);
+      })
+      .catch(err => {
+        if (err.status === 401) {
+          dispatch(lockError(err));
+        } else {
+          dispatch(getOneBoardError(err));
+        }
+      });
+  };
+}
+
+export function getOneBoardRequest() {
   return {
-    type: types.GET_ONE_BOARD,
-    payload: request,
+    type: types.GET_ONE_BOARD_REQUEST,
+  };
+}
+
+export function getOneBoardSuccess({ board }) {
+  return {
+    type: types.GET_ONE_BOARD_SUCCESS,
+    payload: board,
+  };
+}
+
+export function getOneBoardError(err) {
+  return {
+    type: types.GET_ONE_BOARD_ERROR,
+    err,
   };
 }
 
@@ -142,6 +172,13 @@ export function sortIdeasByVotes(order) {
 export function sortIdeasByContent(order) {
   return {
     type: types.SORT_IDEAS_BY_CONTENT,
+    order,
+  };
+}
+
+export function sortIdeasByTime(order) {
+  return {
+    type: types.SORT_IDEAS_BY_TIME,
     order,
   };
 }
@@ -210,10 +247,39 @@ export function deleteActiveUser(boardId) {
 }
 
 export function getUser() {
-  const request = axios.get(`${ROOT_URL}/users`);
+  return dispatch => {
+    dispatch(getUserRequest());
+    return axios.get(`${ROOT_URL}/users`)
+      .then(res => {
+        setTimeout(() => dispatch(getUserSuccess(res.data)), 500);
+      })
+      .catch(err => {
+        if (err.status === 401) {
+          dispatch(lockError(err));
+        } else {
+          dispatch(getUserError(err));
+        }
+      });
+  };
+}
+
+export function getUserRequest() {
   return {
-    type: types.GET_USER,
-    payload: request,
+    type: types.GET_USER_REQUEST,
+  };
+}
+
+export function getUserSuccess({ user }) {
+  return {
+    type: types.GET_USER_SUCCESS,
+    payload: user,
+  };
+}
+
+export function getUserError(err) {
+  return {
+    type: types.GET_USER_ERROR,
+    err,
   };
 }
 
@@ -229,6 +295,14 @@ export function leaveBoard(boardId) {
   const request = axios.put(`${ROOT_URL}/users/${boardId}`);
   return {
     type: types.LEAVE_BOARD,
+    payload: request,
+  };
+}
+
+export function sendEmail(email, title, name, link) {
+  const request = axios.post(`${ROOT_URL}/boards/email`, { email, title, name, link });
+  return {
+    type: types.SEND_EMAIL,
     payload: request,
   };
 }
