@@ -5,8 +5,8 @@ import io from 'socket.io-client';
 import { addMessage } from '../actions/index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Subheader from 'material-ui/Subheader';
 
+import FlipMove from 'react-flip-move';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Badge from 'material-ui/Badge';
@@ -22,9 +22,10 @@ const buttonBefore = {
 };
 
 const buttonAfter = {
-  marginLeft: '425px',
+  marginLeft: '355px',
   marginTop: '28px',
   position: 'absolute',
+  zIndex: 9999,
 };
 
 export default class Chat extends Component {
@@ -119,6 +120,7 @@ export default class Chat extends Component {
   render() {
     return (
       <div style={{ scroll: 'hidden' }}>
+        <FlipMove easing="linear" duration={150} staggerDurationBy={10}>
         <Badge
           style={this.state.current}
           badgeStyle={{
@@ -138,6 +140,8 @@ export default class Chat extends Component {
           <ChatBubble />
         </FloatingActionButton>
       </Badge>
+      </FlipMove>
+
         <Drawer
           style={{
             overflowY: 'none',

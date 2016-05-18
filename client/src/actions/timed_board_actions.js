@@ -41,8 +41,8 @@ export function updateTimedIdea(idea, id, ideaId) {
   };
 }
 
-export function newTimedBoard(title, timerLength, id) {
-  const request = axios.post(`${ROOT_URL}/boards/${id}/timed`, { title, timerLength });
+export function newTimedBoard(title, timerLength, createdAt, id) {
+  const request = axios.post(`${ROOT_URL}/boards/${id}/timed`, { title, timerLength, createdAt });
   return {
     type: types.NEW_TIMED_BOARD,
     payload: request,

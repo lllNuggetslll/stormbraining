@@ -64,16 +64,22 @@ class Email extends Component {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.handleRequestClose}
         >
-          <form onSubmit={this.onFormSubmit}>
+          <form style={{ overflow: 'hidden' }} onSubmit={this.onFormSubmit}>
             <TextField
-              style={{ padding: '10px', height: '100px' }}
+              style={{
+                position: 'relative',
+                overflow: 'hidden',
+                padding: '25px',
+                height: '100px',
+                marginRight: '25px' }}
               floatingLabelText="e.g., johndoe@gmail.com, user@user.com - separate with commas"
               hintText="Insert emails"
+              multiLine={true}
               value={this.state.term}
               onChange={this.onInputChange}
             />
             <RaisedButton
-              style={{ margin: '10px' }}
+              style={{ marginLeft: '30px', marginBottom: '15px', marginTop: '5px' }}
               type="submit"
               label="Submit"
             />

@@ -4,10 +4,10 @@ import helper from './helper.js';
 
 export default {
   addTimedBoard: (req, res) => {
-    const { title, timerLength } = req.body;
+    const { title, timerLength, createdAt } = req.body;
     const boardId = req.params.board_id;
     const authorId = req.user.sub;
-    const newTimedBoard = new TimedBoard({ title, authorId, boardId, timerLength });
+    const newTimedBoard = new TimedBoard({ title, createdAt, authorId, boardId, timerLength });
 
     newTimedBoard.save()
       .then((board) => {

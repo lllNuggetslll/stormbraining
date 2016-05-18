@@ -26,7 +26,7 @@ class StartSession extends Component {
   onStart() {
     this.handleClose();
     const title = `${this.props.board.title} > ${this.state.timerLength} min`;
-    this.props.newTimedBoard(title, this.state.timerLength * 60000, this.props.params.board_id)
+    this.props.newTimedBoard(title, this.state.timerLength * 60000, Date.now(), this.props.params.board_id)
       .then((action) => {
         browserHistory.push(`/timed/${action.payload.data.board.id}`);
       });

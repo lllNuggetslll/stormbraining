@@ -46,7 +46,7 @@ class TimedBoard extends Component {
       clearInterval(this.interval);
       this.setState({ timeRemaining: 0 });
     } else {
-      const timeEnd = Date.parse(this.props.timedBoard.createdAt) + this.props.timedBoard.timerLength + 1500;
+      const timeEnd = this.props.timedBoard.createdAt + this.props.timedBoard.timerLength + 1500;
       const timeNow = new Date().getTime();
       const timeRemaining = timeEnd > timeNow ? timeEnd - timeNow : 0;
       this.setState({ timeRemaining });
