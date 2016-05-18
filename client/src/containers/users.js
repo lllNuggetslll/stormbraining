@@ -59,7 +59,6 @@ class Users extends Component {
   render() {
     return (
       <List>
-        <Subheader>Active Users: {this.state.users.length}</Subheader>
         <div>
           {this.state.users.map(this.renderUsers)}
         </div>
