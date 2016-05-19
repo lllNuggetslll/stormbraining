@@ -1,7 +1,20 @@
 [![Build Status](https://travis-ci.org/ghostmoose/stormbraining.svg?branch=master)](https://travis-ci.org/ghostmoose/stormbraining)
-# stormbraining
+# Stormbraining
 
-> Social brainstorming
+> Brainstorming web app where users can create boards and invite collaborators to elevate their brainstorm. 
+
+Features:
+
+- Swift and secure log in with Gmail or Facebook.
+- Make private boards.
+- Ability to comment on ideas.
+- Create timed sessions with any board you've made.
+- Real-time chat with collaborators who have joined your board.
+- Invite friends to your board via email in the app.
+
+## Homepage
+
+> [Stormbraining](https://storm-braining.herokuapp.com/) 
 
 ## Team
 
@@ -16,29 +29,39 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
+    1. [Roadmap](#roadmap)
     1. [Testing](#testing)
-1. [Team](#team)
 1. [Contributing](#contributing)
 
 ## Usage
 
-> Some usage instructions
+1. Fork and clone repo.
+2. Install dependencies.
+3. Run <code> npm start </code> to start the server.
+4. Navigate to localhost:3000.
 
 ## Requirements
 
-- Node
-- RethinkDB
+- Node 4.1.1
+- React 15.0.2
+- Redux 3.1.4
+- RethinkDB 2.3.1
 
-## Development
+## Installation
 
-> To be added later
-
+<pre><code> 
+$ npm install
+$ npm start 
+</code></pre>
 
 ### Roadmap
 
 View the project roadmap [here](https://github.com/ghostmoose/stormbraining/issues)
 
+### Testing
+
+- For client-side testing, run <code> npm testFront </code>
+- For server-side testing, run <code> npm testBack </code>
 
 ## Contributing
 

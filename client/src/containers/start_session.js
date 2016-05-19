@@ -61,7 +61,7 @@ class StartSession extends Component {
         <RaisedButton
           type="button"
           className="idea-button"
-          label="Start Timed Session"
+          label="Timer"
           onTouchTap={this.handleOpen}
         />
         <Dialog

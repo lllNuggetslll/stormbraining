@@ -67,6 +67,8 @@ class TimedIdeaInput extends Component {
             disabled={this.props.timedBoard.completed || isLoaded && !this.props.timeRemaining}
             underlineFocusStyle={{ borderColor: this.context.muiTheme.palette.accent1Color }}
             floatingLabelFocusStyle={{ color: this.context.muiTheme.palette.accent1Color }}
+            fullWidth
+            style={{ width: '50%' }}
           />
           <RaisedButton
             type="submit"

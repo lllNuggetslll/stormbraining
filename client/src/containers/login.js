@@ -154,7 +154,7 @@ class Login extends Component {
               activeStep={stepIndex}
               orientation="vertical"
               linear={ false }
-              style={{ width: '80%', margin: '0px auto' }}
+              style={{ width: '80%', margin: '0px auto', maxWidth: '730px' }}
             >
              <Step>
                <StepButton

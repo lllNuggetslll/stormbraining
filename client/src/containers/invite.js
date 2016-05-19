@@ -70,7 +70,7 @@ class Invite extends Component {
         <RaisedButton
           type="button"
           className="idea-button"
-          label="Invite Collaborators"
+          label="Invite"
           onTouchTap={this.handleOpen}
         />
         <Dialog

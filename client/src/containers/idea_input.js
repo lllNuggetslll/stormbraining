@@ -58,8 +58,7 @@ class IdeaInput extends Component {
     this.props.leaveBoard(this.props.board.id);
   }
 
-
-  handleRequestClose = () => {
+  handleRequestClose() {
     this.setState({ ...this.state, open: false });
   }
 
@@ -89,6 +88,8 @@ class IdeaInput extends Component {
               onChange={this.onInputChange}
               underlineFocusStyle={{ borderColor: this.context.muiTheme.palette.accent1Color }}
               floatingLabelFocusStyle={{ color: this.context.muiTheme.palette.accent1Color }}
+              fullWidth
+              style={{ width: '50%' }}
             />
             <RaisedButton
               type="submit"
