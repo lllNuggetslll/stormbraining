@@ -24,7 +24,7 @@ const buttonBefore = {
 const buttonAfter = {
   marginLeft: '355px',
   marginTop: '5px',
-  position: 'absolute',
+  position: 'fixed',
   zIndex: 9999,
 };
 
