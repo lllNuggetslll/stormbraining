@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   timedIdeas: [],
   authorId: '',
   boardId: '',
-  timerLength: 0,
+  timerLength: null,
   createdAt: '',
   completed: false,
   isLoading: false,

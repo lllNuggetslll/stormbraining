@@ -31,6 +31,9 @@ export default {
       boards: {
         _apply: (sequence) => sequence.orderBy('createdAt'),
       },
+      timedBoards: {
+        _apply: (sequence) => sequence.filter({ completed: false }).orderBy('createdAt'),
+      },
     }).run()
       .then((user) => {
         res.status(200).json({ user });

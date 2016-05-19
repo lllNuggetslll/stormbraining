@@ -57,6 +57,14 @@ export function pushTimedBoard(id) {
   };
 }
 
+export function deleteTimedBoard(id) {
+  const request = axios.delete(`${ROOT_URL}/timed/${id}`);
+  return {
+    type: types.DELETE_TIMED_BOARD,
+    payload: request,
+  };
+}
+
 export function getTimedBoard(id) {
   return dispatch => {
     dispatch(getTimedBoardRequest());

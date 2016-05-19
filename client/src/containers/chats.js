@@ -17,13 +17,13 @@ import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline'
 
 const buttonBefore = {
   marginLeft: '30px',
-  marginTop: '28px',
+  marginTop: '5px',
   position: 'absolute',
 };
 
 const buttonAfter = {
   marginLeft: '355px',
-  marginTop: '28px',
+  marginTop: '5px',
   position: 'absolute',
   zIndex: 9999,
 };
@@ -119,7 +119,7 @@ export default class Chat extends Component {
 
   render() {
     return (
-      <div style={{ scroll: 'hidden' }}>
+      <div>
         <FlipMove easing="linear" duration={150} staggerDurationBy={10}>
         <Badge
           style={this.state.current}
@@ -143,58 +143,52 @@ export default class Chat extends Component {
       </FlipMove>
 
         <Drawer
-          style={{
-            overflowY: 'none',
-            scroll: 'hidden',
-            position: 'static',
-          }}
           width={400}
           open={this.state.open}
           onRequestChange={(open) => this.setState({ ...this.state, open })}
-        >
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-          >
-            <Tab label={`Users (${this.state.users.length})`} value="a" >
-              <div>
-                <Users {...this.props} />
-              </div>
-            </Tab>
-            <Tab label="Chat" value="b">
-              <div style={{ height: '100%' }}>
+          children={
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleChange}
+            >
+              <Tab label={`Users (${this.state.users.length})`} value="a" >
+                <div>
+                  <Users {...this.props} />
+                </div>
+              </Tab>
+              <Tab label="Chat" value="b">
                 <ChatList {...this.props} />
-              </div>
-              <div
-                style={{
-                  position: 'fixed',
-                  bottom: '0px',
-                  backgroundColor: '#90A4AE',
-                  width: '400px',
-                  paddingLeft: '25px',
-                  paddingBottom: '0px',
-                  marginTop: '50px',
-                  height: '120px',
-                }}
-              >
-                <form onSubmit={this.onChatSubmit}>
-                  <TextField
-                    style={{ paddingTop: '35px' }}
-                    inputStyle={{ color: '#fff' }}
-                    hintText="Your message here..."
-                    value={this.state.term}
-                    onChange={this.onInputChange}
-                  />
-                  <RaisedButton
-                    type="submit"
-                    label="Send"
-                    className="board-button"
-                  />
-                </form>
-              </div>
-            </Tab>
-          </Tabs>
-        </Drawer>
+                <div
+                  style={{
+                    position: 'fixed',
+                    bottom: '0px',
+                    backgroundColor: '#90A4AE',
+                    width: '400px',
+                    paddingLeft: '25px',
+                    paddingBottom: '0px',
+                    marginTop: '50px',
+                    height: '120px',
+                  }}
+                >
+                  <form onSubmit={this.onChatSubmit}>
+                    <TextField
+                      style={{ paddingTop: '35px' }}
+                      inputStyle={{ color: '#fff' }}
+                      hintText="Your message here..."
+                      value={this.state.term}
+                      onChange={this.onInputChange}
+                    />
+                    <RaisedButton
+                      type="submit"
+                      label="Send"
+                      className="board-button"
+                    />
+                  </form>
+                </div>
+              </Tab>
+            </Tabs>
+          }
+        />
       </div>
     );
   }
@@ -204,4 +198,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ addMessage }, dispatch);
 }
 
-export default connect(mapDispatchToProps)(Chat);
+export default connect(null, mapDispatchToProps)(Chat);

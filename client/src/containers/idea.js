@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import ThumbsUp from 'material-ui/svg-icons/action/thumb-up';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import Input from 'material-ui/svg-icons/action/input';
+import Branch from 'material-ui/svg-icons/communication/call-split';
 import IconButton from 'material-ui/IconButton';
 
 import IdeaEditInput from '../containers/idea_edit_input';
@@ -101,13 +101,13 @@ class Idea extends Component {
     const joined = this.props.joined;
     const grayIfNotJoined = joined ? {} : { color: this.context.muiTheme.palette.disabledColor };
     return (
-      <div className="cardHolder" style={{position: 'relative'}}>
+      <div className="cardHolder" style={{ position: 'relative' }}>
         <div style={{
           position: 'absolute',
           paddingLeft: '16px',
           paddingTop: '4px',
           boxSizing: 'border-box',
-          zIndex: '999'}}
+          zIndex: '999' }}
         >
           <span >
           <IdeaEditInput {...this.props} />
@@ -121,16 +121,15 @@ class Idea extends Component {
             paddingTop: '4px',
             boxSizing: 'border-box',
             right: '0px',
-            zIndex: '999'}}
+            zIndex: '999' }}
           >
           <span>
           <IconButton
             onClick={this.branch}
-            hoverColor={this.context.muiTheme.palette.primary1Color}
             tooltip="make a board from this idea"
             tooltipPosition="bottom-center"
           >
-          <Input />
+          <Branch hoverColor={this.context.muiTheme.palette.accent1Color}/>
           </IconButton>
           {this.voteButton()}
           <span style={{ position: 'relative', top: '-5px' }}>{this.props.upvotes.length}</span>

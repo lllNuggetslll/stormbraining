@@ -20,6 +20,7 @@ class Ideas extends Component {
     clearBoardView: PropTypes.func,
     syncComment: PropTypes.func,
     board: PropTypes.object,
+    joined: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -73,7 +74,7 @@ class Ideas extends Component {
           title={<span style={{ color: this.context.muiTheme.palette.textColor }}>
               {this.props.board.title}
             </span>}
-          iconElementLeft={<Chat {...this.props} />}
+          iconElementLeft={this.props.joined ? <Chat {...this.props} /> : <br /> }
           zDepth={3}
           style={{ backgroundColor: this.context.muiTheme.palette.primary3Color, textAlign: 'center' }}
         />

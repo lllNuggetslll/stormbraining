@@ -5,6 +5,7 @@ import CopyToClipBoard from 'react-copy-to-clipboard';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 import './styles/main.scss';
 
 
@@ -17,16 +18,23 @@ class Invite extends Component {
     joined: PropTypes.bool.isRequired,
   }
 
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props);
 
-    this.state = { term: '', open: false, value: `https://storm-braining.herokuapp.com/boards/${this.props.params.board_id}` };
+    this.state = { term: '',
+      snackbar: false,
+      open: false,
+      value: `https://storm-braining.herokuapp.com/boards/${this.props.params.board_id}` };
 
     this.onCopyToClipboard = this.onCopyToClipboard.bind(this);
   }
 
-  onCopyToClipboard(e) {
-    console.log('COPIED', e);
+  onCopyToClipboard() {
+    this.setState({ snackbar: true });
   }
 
   handleOpen = () => {
@@ -35,6 +43,10 @@ class Invite extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+  }
+
+  handleRequestClose = () => {
+    this.setState({ snackbar: false });
   }
 
   render() {
@@ -53,7 +65,6 @@ class Invite extends Component {
       />
       </CopyToClipBoard>,
     ];
-
     return (
       <span>
         <RaisedButton
@@ -73,6 +84,13 @@ class Invite extends Component {
           {this.state.value}
           <br />
         </Dialog>
+        <Snackbar
+          open={this.state.snackbar}
+          message="Copied to clipboard"
+          autoHideDuration={2000}
+          onRequestClose={this.handleRequestClose}
+          bodyStyle={{ backgroundColor: this.context.muiTheme.palette.primary3Color }}
+        />
       </span>
     );
   }
