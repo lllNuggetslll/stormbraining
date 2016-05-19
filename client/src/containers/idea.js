@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { upVote, unVote, getOneBoard, deleteIdea, branchIdeaToBoard } from '../actions/index';
 import { browserHistory } from 'react-router';
 
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardHeader, CardTitle, CardText } from 'material-ui/Card';
 import ThumbsUp from 'material-ui/svg-icons/action/thumb-up';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import Branch from 'material-ui/svg-icons/communication/call-split';
@@ -104,51 +104,40 @@ class Idea extends Component {
       <div className="cardHolder" style={{ position: 'relative' }}>
         <div style={{
           position: 'absolute',
-          paddingLeft: '16px',
-          paddingTop: '4px',
+          display: 'inline-block',
+          paddingRight: '16px',
           boxSizing: 'border-box',
+          right: '0px',
           zIndex: '999' }}
         >
-          <span >
-          <IdeaEditInput {...this.props} />
-          {this.deleteButton()}
-          </span>
-          </div>
-          <div style={{
-            position: 'absolute',
-            display: 'inline-block',
-            paddingRight: '16px',
-            paddingTop: '4px',
-            boxSizing: 'border-box',
-            right: '0px',
-            zIndex: '999' }}
-          >
           <span>
+          {this.deleteButton()}
           <IconButton
             onClick={this.branch}
             tooltip="make a board from this idea"
             tooltipPosition="bottom-center"
+            touch
           >
-          <Branch hoverColor={this.context.muiTheme.palette.accent1Color}/>
+            <Branch hoverColor={this.context.muiTheme.palette.accent1Color}/>
           </IconButton>
           {this.voteButton()}
           <span style={{ position: 'relative', top: '-5px' }}>{this.props.upvotes.length}</span>
           </span>
         </div>
-        <Card style={{ ...grayIfNotJoined, textAlign: 'left', paddingTop: '10px' }} zDepth={2}>
+        <Card style={{ ...grayIfNotJoined, textAlign: 'left', paddingTop: '14px' }} zDepth={2}>
+          <CardTitle
+            children={<IdeaEditInput {...this.props} />}
+          />
           <CardHeader
-            title={<span>&nbsp;</span>}
-            subtitle={
-              <span>{this.props.comments.length} comments </span>
-            }
+            style={{ paddingTop: '0px' }}
+            subtitle={`${this.props.comments.length} comments`}
             actAsExpander
           />
           <CardText
             expandable
-            style={{ textAlign: 'center' }}
-          >
-            <Comments {...this.props} userId={userId} joined={joined} userName={userName} />
-          </CardText>
+            style={{ paddingTop: '0px' }}
+            children={<Comments {...this.props} userId={userId} joined={joined} userName={userName} />}
+          />
         </Card>
       </div>
     );

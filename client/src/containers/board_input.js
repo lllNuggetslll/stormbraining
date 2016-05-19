@@ -17,7 +17,7 @@ class BoardInput extends Component {
 
   static contextTypes = {
     muiTheme: PropTypes.object.isRequired,
-  };
+  }
 
   constructor(props) {
     super(props);
@@ -51,6 +51,8 @@ class BoardInput extends Component {
           value={this.state.board}
           onChange={this.onInputChange}
           className="board-input"
+          underlineFocusStyle={{ borderColor: this.context.muiTheme.palette.accent1Color }}
+          floatingLabelFocusStyle={{ color: this.context.muiTheme.palette.accent1Color }}
         />
         <Snackbar
           open={this.state.open}

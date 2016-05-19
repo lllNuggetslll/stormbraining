@@ -18,7 +18,7 @@ import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline'
 const buttonBefore = {
   marginLeft: '30px',
   marginTop: '5px',
-  position: 'absolute',
+  position: 'fixed',
 };
 
 const buttonAfter = {
@@ -96,9 +96,9 @@ export default class Chat extends Component {
     event.preventDefault();
     const userName = JSON.parse(localStorage.profile).name;
     const message = this.state.term;
+    this.setState({ term: this.state.term = '' });
     if (message) {
       this.props.addMessage(this.props.board.id, message, userName);
-      this.setState({ term: this.state.term = '' });
     }
   }
 
@@ -114,6 +114,40 @@ export default class Chat extends Component {
       this.setState({ current: this.state.current = buttonAfter });
     } else {
       this.setState({ current: this.state.current = buttonBefore });
+    }
+  }
+
+  renderChatForm() {
+    if (this.state.value === 'b') {
+      return (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: '0px',
+            backgroundColor: '#90A4AE',
+            width: '100%',
+            paddingLeft: '25px',
+            paddingBottom: '0px',
+            marginTop: '50px',
+            height: '120px',
+          }}
+        >
+          <form onSubmit={this.onChatSubmit}>
+            <TextField
+              style={{ paddingTop: '35px' }}
+              inputStyle={{ color: '#fff' }}
+              hintText="Your message here..."
+              value={this.state.term}
+              onChange={this.onInputChange}
+            />
+            <RaisedButton
+              type="submit"
+              label="Send"
+              className="board-button"
+            />
+          </form>
+        </div>
+      );
     }
   }
 
@@ -141,7 +175,6 @@ export default class Chat extends Component {
         </FloatingActionButton>
       </Badge>
       </FlipMove>
-
         <Drawer
           width={400}
           open={this.state.open}
@@ -157,33 +190,9 @@ export default class Chat extends Component {
                 </div>
               </Tab>
               <Tab label="Chat" value="b">
-                <ChatList {...this.props} />
-                <div
-                  style={{
-                    position: 'fixed',
-                    bottom: '0px',
-                    backgroundColor: '#90A4AE',
-                    width: '400px',
-                    paddingLeft: '25px',
-                    paddingBottom: '0px',
-                    marginTop: '50px',
-                    height: '120px',
-                  }}
-                >
-                  <form onSubmit={this.onChatSubmit}>
-                    <TextField
-                      style={{ paddingTop: '35px' }}
-                      inputStyle={{ color: '#fff' }}
-                      hintText="Your message here..."
-                      value={this.state.term}
-                      onChange={this.onInputChange}
-                    />
-                    <RaisedButton
-                      type="submit"
-                      label="Send"
-                      className="board-button"
-                    />
-                  </form>
+                <div style={{ height: '100%' }}>
+                  <ChatList {...this.props} />
+                  {this.renderChatForm()}
                 </div>
               </Tab>
             </Tabs>

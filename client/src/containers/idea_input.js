@@ -24,9 +24,9 @@ class IdeaInput extends Component {
     joined: PropTypes.bool.isRequired,
   }
 
-    static contextTypes = {
-      muiTheme: PropTypes.object.isRequired,
-    };
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  }
 
   constructor(props) {
     super(props);
@@ -87,6 +87,8 @@ class IdeaInput extends Component {
               floatingLabelText="Great ideas start here..."
               value={this.state.term}
               onChange={this.onInputChange}
+              underlineFocusStyle={{ borderColor: this.context.muiTheme.palette.accent1Color }}
+              floatingLabelFocusStyle={{ color: this.context.muiTheme.palette.accent1Color }}
             />
             <RaisedButton
               type="submit"

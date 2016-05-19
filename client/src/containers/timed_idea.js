@@ -70,35 +70,24 @@ class TimedIdea extends Component {
 
   render() {
     return (
-      <div className="cardHolder" style={{position: 'relative'}}>
-        <div style={{
-          position: 'absolute',
-          paddingLeft: '16px',
-          paddingTop: '4px',
-          boxSizing: 'border-box',
-          zIndex: '999'}}
-        >
-          <span >
-            <span style={{ float: 'left', paddingTop: '14px' }}>
-              {this.props.content}
-            </span>
-            {this.deleteButton()}
-          </span>
-        </div>
+      <div className="cardHolder" style={{ position: 'relative' }}>
         <div style={{
           position: 'absolute',
           display: 'inline-block',
-          paddingRight: '16px',
-          paddingTop: '4px',
+          paddingRight: '4px',
+          paddingTop: '6px',
           boxSizing: 'border-box',
           right: '0px',
           zIndex: '999'}}
         >
-          <span>{this.selectButton()}</span>
+          <span>
+            {this.deleteButton()}
+            {this.selectButton()}
+          </span>
         </div>
-        <Card style={{ textAlign: 'left', paddingTop: '10px' }} zDepth={2}>
+        <Card style={{ textAlign: 'left', padding: '4px' }} zDepth={2}>
           <CardHeader
-            title={<span>&nbsp;</span>}
+            title={this.props.content}
           />
         </Card>
       </div>

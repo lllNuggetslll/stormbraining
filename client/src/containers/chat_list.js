@@ -86,7 +86,7 @@ class ChatList extends Component {
               <span style={{ color: textColor }}> {timeCreated}</span>
               <br />
               <br />
-              {data.message}
+              <span style={{ wordWrap: 'break-word' }}>{data.message}</span>
             </p>
           }
           disabled={true}
